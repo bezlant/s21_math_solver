@@ -1,17 +1,41 @@
-CC:=gcc
-LIB:=$(shell pkg-config --cflags --libs gtk4)
-TARGET:=hello_world_gtk
+CC 			:=		gcc
+CFLAGS 		:=		-Wall -Werror -Wextra -pedantic -std=c11 -fanalyzer
 
-SRC:=$(shell find . -maxdepth 1 -name "*.c")
-OBJS:=$(SRC:%c=%.o)
+TARGET  	:=    	s21_calc.a
 
-all: $(TARGET)
+MODULES 	:=    	$(shell find . -type d | grep -v -E "tests") 
 
-$(TARGET): $(SRC) 
-	$(CC) -o $(TARGET) $(SRC) $(LIB)
+SRC			:=	  	$(notdir $(shell find $(MODULES) -maxdepth 1 -name "*.c"))
+INC 		:=    	$(shell find $(MODULES) -maxdepth 1 -name "*.h")
+OBJS		:=	  	$(SRC:%.c=%.o)
+OBJS_DIR    :=    	./objs
 
-clean:
-	rm -rf $(OBJS)
+vpath %.c 	$(MODULES)
+vpath %.o 	$(OBJS_DIR)
 
-fclean: clean
-	rm -rf $(TARGET)
+all			: $(TARGET)
+
+$(TARGET)	: $(OBJS)
+				ar -vrcs $(TARGET) $(addprefix $(OBJS_DIR)/, $(OBJS))
+				ranlib $(TARGET)
+
+%.o 		: %.c $(INC)
+				mkdir -p $(OBJS_DIR)
+				$(CC) $(CFLAGS) -o $(addprefix $(OBJS_DIR)/, $@) -c $<
+
+
+debug		:
+				$(info SRC = $(SRC))
+				$(info INC = $(INC))
+				$(info OBJS = $(OBJS))
+				$(info TARGET = $(TARGET))
+				$(info MODULES = $(MODULES))
+
+test		:
+				$(MAKE) -f test.mk
+
+clean		:
+				rm -rf $(OBJS_DIR)
+
+fclean		: clean
+				rm -rf $(TARGET)
