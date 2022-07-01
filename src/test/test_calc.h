@@ -1,7 +1,7 @@
 #ifndef TEST_CALC_H_
 #define TEST_CALC_H_
 
-#include "../stack/stack.h"
+#include "../calc.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,4 +13,5 @@ void run_tests(void);
 void run_testcase(Suite *testcase);
 
 double get_rand(double min, double max);
+
 #endif  //  TEST_CALC_H_
