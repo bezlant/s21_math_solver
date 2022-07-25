@@ -15,7 +15,7 @@ START_TEST(stack_push) {
 
     for (int i = 0; i < STACK_SIZE; i++) {
         push(s, i);
-        ck_assert_int_eq(s->stack[i], i);
+        ck_assert_ldouble_eq(s->stack[i], i);
     }
     my_stack_free(s);
 }
@@ -28,11 +28,11 @@ START_TEST(stack_pop) {
 
     for (int i = 0; i < STACK_SIZE; i++) {
         push(s, i);
-        ck_assert_int_eq(s->stack[i], i);
+        ck_assert_ldouble_eq(s->stack[i], i);
     }
 
     for (int i = STACK_SIZE - 1; i >= 0; i--)
-        ck_assert_int_eq(pop(s), i);
+        ck_assert_ldouble_eq(pop(s), i);
 
     my_stack_free(s);
 }
@@ -58,8 +58,8 @@ START_TEST(stack_peek) {
     push(s, val);
 
     ck_assert_int_eq(is_empty(s), false);
-    ck_assert_int_eq(peek(s), val);
-    ck_assert_int_eq(pop(s), val);
+    ck_assert_ldouble_eq(peek(s), val);
+    ck_assert_ldouble_eq(pop(s), val);
     ck_assert_int_eq(is_empty(s), true);
 
     my_stack_free(s);

@@ -25,7 +25,7 @@ struct my_stack *init_stack() {
  * @param s stack pointer
  * @param x value to add to the stack
  */
-void push(struct my_stack *const s, const int x) {
+void push(struct my_stack *const s, long double x) {
     if (s->idx < 1024 && s->idx >= -1) {
         s->stack[++s->idx] = x;
     } else {
@@ -40,14 +40,13 @@ void push(struct my_stack *const s, const int x) {
  * @param s stack pointer
  * @return value from top of the stack
  */
-int pop(struct my_stack *s) {
+long double pop(struct my_stack *s) {
     if (!s) {
         fprintf(stderr, "Stack is NULL, can't check if it is empty!");
         exit(1);
     }
     return s->stack[s->idx--];
 }
-
 /**
  * @brief Check if stack is empty
  *
@@ -68,7 +67,7 @@ bool is_empty(struct my_stack *s) {
  * @param s stack pointer
  * @return the top value
  */
-int peek(struct my_stack *s) {
+long double peek(struct my_stack *s) {
     if (s->idx == -1) {
         fprintf(stderr, "Trying to use %d index of the stack array!", s->idx);
         exit(1);
