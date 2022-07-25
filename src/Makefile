@@ -1,5 +1,5 @@
 CC 				:=		gcc
-CFLAGS 			:=		-Wall -Werror -Wextra -pedantic -std=c11 -fanalyzer
+CFLAGS 			:=		-Wall -Werror -Wextra -pedantic -std=c11 
 
 TARGET  		:=    	s21_calc.a
 
@@ -25,6 +25,7 @@ $(TARGET)		: $(OBJS)
 $(OBJS_DIR) 	:
 					mkdir -p $(OBJS_DIR)
 
+.PHONY: test
 test			:
 					$(MAKE) -f test.mk
 
@@ -38,5 +39,7 @@ debug			:
 clean			:
 					rm -rf $(OBJS_DIR)
 					rm -rf $(TARGET)
+fclean			:
+					$(MAKE) -f test.mk clean
 
 .PHONY: all install uninstall clean dvi dist tests gcov_report re

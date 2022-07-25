@@ -1,5 +1,7 @@
 # Custom
 tags
+.cache
+compile_commands.json
 
 # Prerequisites
 *.d

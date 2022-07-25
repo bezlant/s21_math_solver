@@ -1,7 +1,7 @@
 CC				:=	  	gcc
 GCOV_FLAGS  	:= 		-fprofile-arcs -ftest-coverage 
 ASAN			:=		-g -fsanitize=address
-CFLAGS			:=		-Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer $(GCOV_FLAGS) $(ASAN)
+CFLAGS			:=		-Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer $(GCOV_FLAGS) #$(ASAN)
 LDFLAGS 		:= 		$(shell pkg-config --libs --cflags check)
 
 TARGET			:= 		tests
@@ -25,7 +25,7 @@ vpath %.o 	$(OBJS_DIR)
 all				: $(TARGET) 
 
 $(TARGET)		: $(TARGET_LIB) $(TEST_OBJS)
-					$(CC) $(CFLAGS) $(TEST_LIB) -o $@ $(TARGET_LIB) $(addprefix $(OBJS_DIR)/, $(TEST_OBJS)) $(LDFLAGS) 
+					$(CC) $(CFLAGS) -o $@  $(addprefix $(OBJS_DIR)/, $(TEST_OBJS)) $(TARGET_LIB) $(LDFLAGS) 
 					./tests
 				
 %.o 			: %.c $(INC) $(OBJS_DIR)
@@ -69,4 +69,4 @@ clean			:
 
 re: clean $(TARGET)
 
-.PHONY: all gcov_report re clean debug 
+.PHONY: tests test all gcov_report re clean debug 
