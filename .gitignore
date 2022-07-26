@@ -2,6 +2,7 @@
 tags
 .cache
 compile_commands.json
+build/
 
 # Prerequisites
 *.d
