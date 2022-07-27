@@ -4,4 +4,4 @@
 #include "debug.h"
 #include "stack/stack.h"
 
-#endif  // CALC_H_
+#endif // CALC_H_
