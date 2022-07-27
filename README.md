@@ -63,7 +63,10 @@ Implementation of the **math solver** in C following the principles of structure
 
 ```
 $ git clone https://github.com/bezlant/s21_math_solver
-$ cd s21_math_solver/src
+$ cd s21_math_solver/src/
+$ mkdir build
+$ cd build
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
 
