@@ -14,7 +14,6 @@ project(
 
 set(CMAKE_CONFIGURATION_TYPES "Debug" "Release")
 set(CMAKE_VERBOSE_MAKEFILE ON)
-add_executable(calc_test "${SOURCE_FILES}")
 
 # Get compile commands for clangd & copy them to src/
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
