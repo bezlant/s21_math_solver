@@ -12,9 +12,8 @@ project(
   HOMEPAGE_URL "https://github.com/bezlant/s21_math_solver"
   LANGUAGES CXX C)
 
-add_executable(calc_test "${SOURCE_FILES}")
-
 set(CMAKE_CONFIGURATION_TYPES "Debug" "Release")
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Get compile commands for clangd & copy them to src/
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -24,6 +23,7 @@ add_custom_target(
   ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR})
 
 # Standards
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -31,8 +31,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Compilation flags
 set(CMAKE_C_FLAGS "-Wall -Werror -Wextra")
 
-set(SOURCE_FILES ./test/test_stack.c ./test/test_runner.c ./stack/stack.c)
+# Sources
+set(SOURCE_FILES ./ui/ui_test.cpp)
 
-target_link_libraries(calc_test PRIVATE check)
+# Executable
+add_executable(ui_test "${SOURCE_FILES}")
 
+# Link all libraries
+find_package(glfw3 3.3 REQUIRED)
+
+target_link_libraries(ui_test glfw)
+
+# Debug Prints
 message(STATUS "Sources: " ${SOURCE_FILES})
