@@ -50,8 +50,9 @@ Implementation of the **math solver** in C following the principles of structure
 
 ### Goals
 
-- [ ] CMake integration
-- [ ] GUI based on Dear ImGui
+- [x] Make & Imgui integration
+- [x] GUI based on Dear ImGui
+- [ ] Integrate ImPlot
 - [ ] Shunting-Yard algorithm.
 - [ ] String validation algorithm.
 - [ ] Credit calculator
