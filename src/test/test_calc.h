@@ -1,7 +1,7 @@
 #ifndef TEST_CALC_H_
 #define TEST_CALC_H_
 
-#include "../calc.h"
+#include "../includes/calc.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
