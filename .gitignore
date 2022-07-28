@@ -3,6 +3,7 @@ tags
 .cache
 compile_commands.json
 build/
+imgui.ini
 
 # Prerequisites
 *.d
