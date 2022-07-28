@@ -3,6 +3,8 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <implot.h>
+#include <math.h>
 #include <stdio.h>
 
 static void glfw_error_callback(int error, const char *description) {
@@ -38,6 +40,7 @@ int main(void) {
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
 
     // Keyboard controls
     ImGuiIO &io = ImGui::GetIO();
@@ -53,7 +56,17 @@ int main(void) {
     // Default state
     bool show_demo_window = true;
     bool show_another_window = false;
+    bool show_plot_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    float x_plot[180] = {0};
+    float y_plot[180] = {0};
+
+    int j = 0;
+    for (float i = -M_PI; j < 180 && i <= M_PI; i += M_PI / 180, j++) {
+        x_plot[j] = i;
+        y_plot[j] = sin(x_plot[j]);
+    }
 
     while (!glfwWindowShouldClose(window)) {
         /* Poll for and process events */
@@ -63,7 +76,8 @@ int main(void) {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::ShowDemoWindow(&show_demo_window);
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
 
         {
             static float f = 0.0f;
@@ -75,6 +89,7 @@ int main(void) {
             ImGui::Text("This text is so useful!");
             ImGui::Checkbox("Demo Window", &show_demo_window);
             ImGui::Checkbox("Another Window", &show_another_window);
+            ImGui::Checkbox("Plot Window", &show_plot_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
             ImGui::ColorEdit3("clear color", (float *)&clear_color);
@@ -99,6 +114,15 @@ int main(void) {
             ImGui::End();
         }
 
+        if (show_plot_window) {
+            ImGui::Begin("Plot window", &show_plot_window);
+            if (ImPlot::BeginPlot("My plot")) {
+                ImPlot::PlotLine("My Line Plot", x_plot, y_plot, 180);
+                ImPlot::EndPlot();
+            }
+            ImGui::End();
+        }
+
         // Rendering
         ImGui::Render();
         int display_w, display_h;
@@ -118,6 +142,7 @@ int main(void) {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    ImPlot::DestroyContext();
 
     glfwDestroyWindow(window);
     glfwTerminate();
