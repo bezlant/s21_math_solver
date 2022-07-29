@@ -3,16 +3,20 @@ CXX = g++
 EXE = math_solver
 IMGUI_DIR = ./imgui
 IMPLOT_DIR = $(IMGUI_DIR)/implot
+CREDIT_DIR = ./credit_calc
+
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SOURCES += $(IMPLOT_DIR)/implot.cpp $(IMPLOT_DIR)/implot_items.cpp $(IMPLOT_DIR)/implot_demo.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
+SOURCES += $(CREDIT_DIR)/credit_calc.c
+
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
 CXXFLAGS = -pedantic -std=c++11 -I$(IMGUI_DIR) -I$(IMPLOT_DIR) -I$(IMGUI_DIR)/backends 
 CXXFLAGS += -g -Wall -Wformat
-LIBS =
+CFLAGS = -pedantic -std=c++11 -g -Wall -Werror -Wextra
 
 ##---------------------------------------------------------------------
 ## BUILD FLAGS PER PLATFORM
@@ -32,7 +36,6 @@ ifeq ($(UNAME_S), Darwin)
 	LIBS += $(shell pkg-config --libs glfw3)
 
 	CXXFLAGS += $(shell pkg-config --cflags glfw3)
-	CFLAGS = $(CXXFLAGS)
 endif
 
 ifeq ($(OS), Windows_NT)
@@ -53,6 +56,9 @@ endif
 %.o:$(IMGUI_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
+%.o:$(CREDIT_DIR)/%.c
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
 %.o:$(IMPLOT_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
@@ -60,6 +66,10 @@ endif
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 all: $(EXE)
+
+debug:
+	@echo $(SOURCES)
+	@echo $(OBJS)
 
 $(EXE): $(OBJS)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
