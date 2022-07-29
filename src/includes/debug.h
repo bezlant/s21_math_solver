@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
@@ -6,6 +8,7 @@
 #else
 #define TRACE_ON 1
 #endif
+
 #define STRINGIFY(X) #X
 #define STRGY(X) STRINGIFY(X)
 
