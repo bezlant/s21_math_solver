@@ -1,11 +1,10 @@
 #define GL_SILENCE_DEPRECATION
+#include "includes/calc.h"
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <implot.h>
-#include <math.h>
-#include <stdio.h>
 
 static void glfw_error_callback(int error, const char *description) {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -55,8 +54,10 @@ int main(void) {
 
     // Default state
     bool show_demo_window = true;
-    bool show_another_window = false;
+    bool show_credit_window = false;
+    bool show_deposit_window = false;
     bool show_plot_window = true;
+
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     float x_plot[180] = {0};
@@ -84,12 +85,13 @@ int main(void) {
             static int counter = 0;
 
             // Create a window
-            ImGui::Begin("Hello, World!");
+            ImGui::Begin("Main Menu");
 
             ImGui::Text("This text is so useful!");
             ImGui::Checkbox("Demo Window", &show_demo_window);
-            ImGui::Checkbox("Another Window", &show_another_window);
-            ImGui::Checkbox("Plot Window", &show_plot_window);
+            ImGui::Checkbox("Credit Calculator", &show_credit_window);
+            ImGui::Checkbox("Deposit Calculator", &show_deposit_window);
+            ImGui::Checkbox("Plot", &show_plot_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
             ImGui::ColorEdit3("clear color", (float *)&clear_color);
@@ -105,11 +107,51 @@ int main(void) {
             ImGui::End();
         }
 
-        if (show_another_window) {
-            ImGui::Begin("Another window", &show_another_window);
-            ImGui::Text("Hello from Another Window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
+        if (show_credit_window) {
+            ImGui::Begin("Credit Calculator", &show_credit_window);
+
+            ImGui::Text("Loan Amount: ");
+            ImGui::SameLine();
+            static char loan_amount[64] = "100.000";
+            ImGui::InputText("USD", loan_amount, 64,
+                             ImGuiInputTextFlags_CharsDecimal);
+
+            ImGui::Text("Loan Term: ");
+            ImGui::SameLine();
+            static char term[64] = "10";
+            ImGui::InputText("months", term, 64,
+                             ImGuiInputTextFlags_CharsDecimal);
+
+            ImGui::Text("Interest Rate: ");
+            ImGui::SameLine();
+            static char interest_rate[64] = "6";
+            ImGui::InputText("%", interest_rate, 64,
+                             ImGuiInputTextFlags_CharsDecimal);
+
+            static int credit_type = ANNUITY;
+
+            ImGui::RadioButton("Annuity", &credit_type, ANNUITY);
+            ImGui::SameLine();
+            ImGui::RadioButton("Differentiated", &credit_type, DIFFERENTIATED);
+
+            char *stopstring = NULL;
+            long double ld_term = strtoul(term, &stopstring, 10);
+            long double ld_loan_amount = strtold(loan_amount, &stopstring);
+            long double montly = annuity_get_montly(
+                strtold(interest_rate, &stopstring), ld_term, ld_loan_amount);
+            long double total_payment = annuity_get_total(montly, ld_term);
+            long double total_interest =
+                get_overpayment(total_payment, ld_loan_amount);
+
+            ImGui::Text("Payment Every Month = %.2Lf", montly);
+            ImGui::Text("Total Interest = %.2Lf", total_interest);
+            ImGui::Text("Total Payment = %.2Lf", total_payment);
+
+            ImGui::End();
+        }
+
+        if (show_deposit_window) {
+            ImGui::Begin("Deposit Calculator", &show_deposit_window);
 
             ImGui::End();
         }
