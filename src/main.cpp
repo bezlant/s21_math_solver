@@ -1,6 +1,5 @@
 #define GL_SILENCE_DEPRECATION
 #include "includes/calc.h"
-
 static void glfw_error_callback(int error, const char *description) {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
@@ -41,19 +40,20 @@ int main(void) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
     // Colorscheme
-    ImGui::StyleColorsDark();
-    // ImGui::StyleColorsLight();
+    // ImGui::StyleColorsDark();
+    ImGui::StyleColorsLight();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
     // Default state
     bool show_demo_window = true;
-    bool show_credit_window = false;
-    bool show_deposit_window = false;
-    bool show_plot_window = true;
+    bool show_credit_window = true;
+    bool show_deposit_window = true;
+    bool show_plot_window = false;
+    bool show_plot_demo_window = false;
 
-    ImVec4 clear_color = ImVec4(0.0, 0.170, 0.255f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.0, 0.376, 0.564, 1.00f);
 
     float x_plot[180] = {0};
     float y_plot[180] = {0};
@@ -72,6 +72,9 @@ int main(void) {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        if (show_plot_demo_window)
+            ImPlot::ShowDemoWindow(&show_plot_demo_window);
+
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -83,13 +86,14 @@ int main(void) {
             ImGui::Begin("Main Menu");
 
             ImGui::Text("Please choose available options: ");
-            ImGui::Checkbox("Demo Window", &show_demo_window);
+            ImGui::Checkbox("Gui Demo Window", &show_demo_window);
+            ImGui::Checkbox("Plot Demo Window", &show_plot_demo_window);
             ImGui::Checkbox("Credit Calculator", &show_credit_window);
             ImGui::Checkbox("Deposit Calculator", &show_deposit_window);
             ImGui::Checkbox("Plot", &show_plot_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-            ImGui::ColorEdit3("clear color", (float *)&clear_color);
+            ImGui::ColorEdit3("Background color", (float *)&clear_color);
 
             if (ImGui::Button("Button"))
                 counter++;
@@ -159,6 +163,7 @@ int main(void) {
         }
 
         if (show_deposit_window) {
+            ImGui::SetNextWindowPos(ImVec2(0, 400), ImGuiCond_FirstUseEver);
             ImGui::Begin("Deposit Calculator", &show_deposit_window);
 
             static int periodicity = MONTHLY;

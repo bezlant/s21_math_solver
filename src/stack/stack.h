@@ -1,9 +1,7 @@
 #ifndef STACK_H_
 #define STACK_H_
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "../includes/common.h"
 
 #define STACK_SIZE 1024
 

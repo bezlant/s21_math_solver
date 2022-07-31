@@ -8,15 +8,16 @@
  *  };
  */
 struct my_stack *init_stack() {
-    struct my_stack *new = calloc(1, sizeof(struct my_stack));
+    struct my_stack *new_stack =
+        (struct my_stack *)calloc(1, sizeof(struct my_stack));
 
-    if (!new) {
+    if (!new_stack) {
         fprintf(stderr, "Malloc failed, exiting...");
         exit(1);
     }
 
-    new->idx = -1;
-    return new;
+    new_stack->idx = -1;
+    return new_stack;
 }
 
 /**
