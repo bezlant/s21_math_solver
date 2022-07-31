@@ -1,9 +1,7 @@
 #ifndef CREDIT_CALC_H_
 #define CREDIT_CALC_H_
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "../includes/common.h"
 
 enum {
     ANNUITY,
