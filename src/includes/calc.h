@@ -5,7 +5,6 @@
 #include "../deposit_calc/deposit_calc.h"
 #include "../stack/stack.h"
 #include "common.h"
-#include "gui.h"
 
 void glfw_error_callback(int error, const char *description);
 void show_deposit_calc(bool &show_deposit_window);

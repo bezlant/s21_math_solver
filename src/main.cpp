@@ -1,5 +1,6 @@
 #define GL_SILENCE_DEPRECATION
 #include "includes/calc.h"
+#include "includes/gui.h"
 
 int main(void) {
     /* Get human-readable error outputs */
