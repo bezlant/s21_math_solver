@@ -52,11 +52,11 @@ Implementation of the **math solver** in C following the principles of structure
 
 - [x] Make & Imgui integration
 - [x] GUI based on Dear ImGui
-- [ ] Integrate ImPlot
+- [x] Integrate ImPlot
 - [ ] Shunting-Yard algorithm.
 - [ ] String validation algorithm.
-- [ ] Credit calculator
-- [ ] Debit calculator
+- [x] Credit calculator
+- [x] Debit calculator
 - [ ] Unit Tests 
 - [ ] Add previews & tests to README
 
