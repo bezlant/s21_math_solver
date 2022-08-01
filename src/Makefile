@@ -16,7 +16,7 @@ SOURCES += $(DEPOSIT_DIR)/deposit_calc.c
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
-CXXFLAGS = -pedantic -std=c++11 -I $(IMGUI_DIR) -I $(IMPLOT_DIR) -I $(IMGUI_DIR)/backends 
+CXXFLAGS = -I $(IMGUI_DIR) -I $(IMPLOT_DIR) -I $(IMGUI_DIR)/backends 
 CXXFLAGS += -g -Wall -Wformat
 LIBS =
 

@@ -24,7 +24,8 @@ void run_testcase(Suite *testcase) {
 }
 
 void run_tests(void) {
-    Suite *list_cases[] = {suite_stack(), NULL};
+    Suite *list_cases[] = {suite_stack(), suite_deposit(), suite_credit(),
+                           NULL};
 
     for (Suite **current_testcase = list_cases; *current_testcase != NULL;
          current_testcase++) {

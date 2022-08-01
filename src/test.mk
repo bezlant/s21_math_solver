@@ -1,13 +1,13 @@
 CC				:=	  	gcc
 GCOV_FLAGS  	:= 		-fprofile-arcs -ftest-coverage 
 ASAN			:=		-g -fsanitize=address
-CFLAGS			:=		-Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer $(GCOV_FLAGS) #$(ASAN)
-LDFLAGS 		:= 		$(shell pkg-config --libs --cflags check)
+CFLAGS			:=		-Wall -Werror -Wextra -std=c11 -pedantic $(GCOV_FLAGS) #$(ASAN)
+LDFLAGS 		:= 		$(shell pkg-config --libs --cflags check) -lm
 
 TARGET			:= 		tests
 TARGET_LIB  	:=		s21_calc_test.a 
 
-MODULES			:= 		$(shell find . -type d | grep -E "stack")
+MODULES			:= 		$(shell find . -type d | grep -E "stack|credit_calc|deposit_calc")
 TEST_MODULES	:= 		$(shell find . -type d | grep -E "test")
 
 SRC				:= 		$(notdir $(shell find $(MODULES) -maxdepth 1 -name "*.c"))
