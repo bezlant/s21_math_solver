@@ -16,9 +16,9 @@ SOURCES += $(DEPOSIT_DIR)/deposit_calc.c
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
-CXXFLAGS = -pedantic -std=c++11 -I$(IMGUI_DIR) -I$(IMPLOT_DIR) -I$(IMGUI_DIR)/backends 
+CXXFLAGS = -pedantic -std=c++11 -I $(IMGUI_DIR) -I $(IMPLOT_DIR) -I $(IMGUI_DIR)/backends 
 CXXFLAGS += -g -Wall -Wformat
-CFLAGS = -pedantic -std=c++11 -g -Wall -Werror -Wextra
+LIBS =
 
 ##---------------------------------------------------------------------
 ## BUILD FLAGS PER PLATFORM
@@ -26,10 +26,9 @@ CFLAGS = -pedantic -std=c++11 -g -Wall -Werror -Wextra
 
 ifeq ($(UNAME_S), Linux)
 	ECHO_MESSAGE = "Linux"
-	LIBS += -lGl `pkg-config --static --libs glfw3`
+	LIBS += $(shell pkg-config --static --libs glfw3) $(shell pkg-config --libs opengl)
 
-	CXXFLAGS += `pkg-config --cflags glfw3`
-	CFLAGS = $(CXXFLAGS)
+	CXXFLAGS += $(shell pkg-config --cflags glfw3)
 endif
 
 ifeq ($(UNAME_S), Darwin) 
@@ -40,35 +39,27 @@ ifeq ($(UNAME_S), Darwin)
 	CXXFLAGS += $(shell pkg-config --cflags glfw3)
 endif
 
-ifeq ($(OS), Windows_NT)
-	ECHO_MESSAGE = "MinGW"
-	LIBS += -lglfw3 -lgdi32 -lopengl32 -limm32
-
-	CXXFLAGS += `pkg-config --cflags glfw3`
-	CFLAGS = $(CXXFLAGS)
-endif
-
 ##---------------------------------------------------------------------
 ## BUILD RULES
 ##---------------------------------------------------------------------
 
 %.o:%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(IMGUI_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(CREDIT_DIR)/%.c
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 %.o:$(DEPOSIT_DIR)/%.c
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(IMPLOT_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(IMGUI_DIR)/backends/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 all: $(EXE)
 
