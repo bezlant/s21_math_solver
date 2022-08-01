@@ -79,9 +79,6 @@ int main(void) {
             ImGui::ShowDemoWindow(&show_demo_window);
 
         {
-            static float f = 0.0f;
-            static int counter = 0;
-
             // Create a window
             ImGui::Begin("Main Menu");
 
@@ -92,21 +89,14 @@ int main(void) {
             ImGui::Checkbox("Deposit Calculator", &show_deposit_window);
             ImGui::Checkbox("Plot", &show_plot_window);
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
             ImGui::ColorEdit3("Background color", (float *)&clear_color);
 
-            if (ImGui::Button("Button"))
-                counter++;
-
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                        1000.0f / ImGui::GetIO().Framerate,
-                        ImGui::GetIO().Framerate);
             ImGui::End();
         }
 
         if (show_credit_window) {
+            ImGui::SetNextWindowSize(ImVec2(269, 187), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowPos(ImVec2(343, 61), ImGuiCond_FirstUseEver);
             ImGui::Begin("Credit Calculator", &show_credit_window);
 
             ImGui::Text("Loan Amount: ");
@@ -163,7 +153,8 @@ int main(void) {
         }
 
         if (show_deposit_window) {
-            ImGui::SetNextWindowPos(ImVec2(0, 400), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(573, 253), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowPos(ImVec2(45, 317), ImGuiCond_FirstUseEver);
             ImGui::Begin("Deposit Calculator", &show_deposit_window);
 
             static int periodicity = MONTHLY;
