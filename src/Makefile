@@ -71,4 +71,7 @@ $(EXE): $(OBJS)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 clean:
-	rm -f $(EXE) $(OBJS) imgui.ini
+	rm -f  $(OBJS) imgui.ini
+
+fclean: clean
+	rm -f $(EXE)
