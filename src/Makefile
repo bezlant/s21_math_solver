@@ -18,7 +18,7 @@ UNAME_S := $(shell uname -s)
 
 CXXFLAGS = -I $(IMGUI_DIR) -I $(IMPLOT_DIR) -I $(IMGUI_DIR)/backends 
 CXXFLAGS += -g -Wall -Wformat
-LIBS =
+LIBS = -lpcre
 
 ##---------------------------------------------------------------------
 ## BUILD FLAGS PER PLATFORM

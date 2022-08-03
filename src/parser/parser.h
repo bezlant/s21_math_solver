@@ -3,7 +3,9 @@
 
 #include "../includes/common.h"
 #include <ctype.h>
+#include <pcre.h>
 #include <regex.h>
+#include <string.h>
 
 struct Tokens {
     char *token[256];
@@ -21,5 +23,6 @@ void read_number(struct Lexer *lex, struct Tokens *tok);
 void read_function(struct Lexer *lex, struct Tokens *tok);
 void read_symbol(struct Lexer *lex, struct Tokens *tok);
 void skip_spaces(struct Lexer *lex);
+bool is_valid(char *str);
 
 #endif  // PARSER_H_
