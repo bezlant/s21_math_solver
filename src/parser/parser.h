@@ -18,7 +18,6 @@ struct Lexer {
 };
 
 struct Tokens *tokenize(char *str);
-void read_x(struct Lexer *lex, struct Tokens *tok);
 void read_number(struct Lexer *lex, struct Tokens *tok);
 void read_function(struct Lexer *lex, struct Tokens *tok);
 void read_symbol(struct Lexer *lex, struct Tokens *tok);
