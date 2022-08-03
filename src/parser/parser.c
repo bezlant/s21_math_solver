@@ -119,10 +119,7 @@ bool is_valid(char *str) {
     int erroffset = 0;
     pcre *reg = pcre_compile("^[a-z0-9 \\.\\(\\)\\*\\-\\+\\%\\/\\^]+$", 0,
                              &error, &erroffset, NULL);
-    if (!reg) {
-        fprintf(stderr, "Can't compile the regular expression");
-        exit(EXIT_FAILURE);
-    }
+    assert(reg != NULL);
 
     if (pcre_exec(reg, NULL, str, strlen(str), 0, 0, NULL, 0))
         ret = false;
