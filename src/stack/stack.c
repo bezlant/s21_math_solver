@@ -11,10 +11,7 @@ struct my_stack *init_stack() {
     struct my_stack *new_stack =
         (struct my_stack *)calloc(1, sizeof(struct my_stack));
 
-    if (!new_stack) {
-        fprintf(stderr, "Malloc failed, exiting...");
-        exit(1);
-    }
+    assert(new_stack != NULL);
 
     new_stack->idx = -1;
     return new_stack;
@@ -27,12 +24,8 @@ struct my_stack *init_stack() {
  * @param x value to add to the stack
  */
 void push(struct my_stack *const s, long double x) {
-    if (s->idx < 1024 && s->idx >= -1) {
-        s->stack[++s->idx] = x;
-    } else {
-        fprintf(stderr, "Stack is full or indexes are messed up!");
-        exit(1);
-    }
+    assert(s->idx < 1024 && s->idx >= -1);
+    s->stack[++s->idx] = x;
 }
 
 /**
@@ -42,10 +35,7 @@ void push(struct my_stack *const s, long double x) {
  * @return value from top of the stack
  */
 long double pop(struct my_stack *s) {
-    if (!s) {
-        fprintf(stderr, "Stack is NULL, can't check if it is empty!");
-        exit(1);
-    }
+    assert(s != NULL);
     return s->stack[s->idx--];
 }
 /**
@@ -55,10 +45,7 @@ long double pop(struct my_stack *s) {
  * @return true if empty otherwise false
  */
 bool is_empty(struct my_stack *s) {
-    if (!s) {
-        fprintf(stderr, "Stack is NULL, can't check if it is empty!");
-        exit(1);
-    }
+    assert(s != NULL);
     return s->idx >= 0 ? false : true;
 }
 
@@ -69,10 +56,7 @@ bool is_empty(struct my_stack *s) {
  * @return the top value
  */
 long double peek(struct my_stack *s) {
-    if (s->idx == -1) {
-        fprintf(stderr, "Trying to use %d index of the stack array!", s->idx);
-        exit(1);
-    }
+    assert(s->idx != -1);
     return s->stack[s->idx];
 }
 
