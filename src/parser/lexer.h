@@ -23,5 +23,6 @@ void read_function(struct Lexer *lex, struct Tokens *tok);
 void read_symbol(struct Lexer *lex, struct Tokens *tok);
 void skip_spaces(struct Lexer *lex);
 bool is_valid(char *str);
+void free_Tokens(struct Tokens *tok);
 
 #endif  // PARSER_H_

@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "lexer.h"
 
 // int main(int argc, char *argv[]) {
 //
@@ -24,10 +24,8 @@ struct Tokens *tokenize(char *str) {
     // Integrate this into imgui so we don't exit the program,
     // just wait for a valid input
 
-    if (!is_valid(str)) {
-        fprintf(stderr, "Please input a valid expression");
-        exit(EXIT_FAILURE);
-    }
+    if (!is_valid(str))
+        return NULL;
 
     struct Tokens *tok = (struct Tokens *)calloc(1, sizeof(struct Tokens));
     struct Lexer *lex = (struct Lexer *)calloc(1, sizeof(struct Lexer));
@@ -52,7 +50,7 @@ struct Tokens *tokenize(char *str) {
  */
 void read_symbol(struct Lexer *lex, struct Tokens *tok) {
     if (!lex->source[lex->cursor] ||
-        isalnum(lex->source[lex->cursor]) && lex->source[lex->cursor] != 'x')
+        (isalnum(lex->source[lex->cursor]) && lex->source[lex->cursor] != 'x'))
         return;
 
     skip_spaces(lex);
@@ -146,4 +144,17 @@ bool is_valid(char *str) {
 
     pcre_free(reg);
     return ret;
+}
+
+/**
+ * @brief Frees up memory allocated for the struct Tokens
+ *
+ * @param tok Pointer to the Tokens
+ */
+void free_Tokens(struct Tokens *tok) {
+    assert(tok != NULL);
+    for (size_t i = 0; i < tok->size; i++)
+        free(tok->token[i]);
+
+    free(tok);
 }
