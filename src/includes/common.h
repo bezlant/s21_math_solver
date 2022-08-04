@@ -8,4 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define CHECKMALLOC(var)                                                       \
+    if ((var) == NULL) {                                                       \
+        fprintf(stderr, "ERROR: Memory allocation failed\n");                  \
+        abort();                                                               \
+    }
+
 #endif  // COMMON_H_

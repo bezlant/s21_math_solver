@@ -10,8 +10,7 @@
 struct my_stack *init_stack() {
     struct my_stack *new_stack =
         (struct my_stack *)calloc(1, sizeof(struct my_stack));
-
-    assert(new_stack != NULL);
+    CHECKMALLOC(new_stack);
 
     new_stack->idx = -1;
     return new_stack;
@@ -23,7 +22,7 @@ struct my_stack *init_stack() {
  * @param s stack pointer
  * @param x value to add to the stack
  */
-void push(struct my_stack *const s, long double x) {
+void push(struct my_stack *const s, float x) {
     assert(s->idx < 1024 && s->idx >= -1);
     s->stack[++s->idx] = x;
 }
@@ -34,7 +33,7 @@ void push(struct my_stack *const s, long double x) {
  * @param s stack pointer
  * @return value from top of the stack
  */
-long double pop(struct my_stack *s) {
+float pop(struct my_stack *s) {
     assert(s != NULL);
     return s->stack[s->idx--];
 }
@@ -55,7 +54,7 @@ bool is_empty(struct my_stack *s) {
  * @param s stack pointer
  * @return the top value
  */
-long double peek(struct my_stack *s) {
+float peek(struct my_stack *s) {
     assert(s->idx != -1);
     return s->stack[s->idx];
 }
