@@ -1,6 +1,6 @@
 # Math Solver
 
-![Solver Preview](assets/preview.gif)
+![Solver Preview](assets/preview.png)
 
 ### Table of Contents
 * [Introduction](#introduction)
@@ -65,10 +65,7 @@ Implementation of the **math solver** in C following the principles of structure
 ```
 $ git clone https://github.com/bezlant/s21_math_solver
 $ cd s21_math_solver/src/
-$ mkdir build
-$ cd build
-$ cmake .. -DCMAKE_BUILD_TYPE=Release
-$ make
+$ make 
 ```
 
 ### Tests
