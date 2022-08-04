@@ -45,7 +45,7 @@ int main(void) {
     // bool show_demo_window = false;
     bool show_credit_window = true;
     bool show_deposit_window = true;
-    bool show_calc = true;
+    bool show_calc_window = true;
 
     ImVec4 clear_color = ImVec4(0.0, 0.376, 0.564, 1.00f);
 
@@ -79,7 +79,7 @@ int main(void) {
             ImGui::Begin("Main Menu");
 
             ImGui::Text("Please choose available options: ");
-            ImGui::Checkbox("Math Expression Evaluator", &show_calc);
+            ImGui::Checkbox("Math Expression Evaluator", &show_calc_window);
             ImGui::Checkbox("Credit Calculator", &show_credit_window);
             ImGui::Checkbox("Deposit Calculator", &show_deposit_window);
             if (ImGui::ShowStyleSelector("Colorscheme##Selector"))
@@ -98,10 +98,10 @@ int main(void) {
         if (show_deposit_window)
             show_deposit_calc(show_deposit_window);
 
-        if (show_calc) {
+        if (show_calc_window) {
             ImGui::SetNextWindowPos(ImVec2(599, 17), ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize(ImVec2(655, 681), ImGuiCond_FirstUseEver);
-            ImGui::Begin("Math Solver", &show_calc);
+            ImGui::Begin("Math Solver", &show_calc_window);
 
             ImGui::Text("Expression: ");
             ImGui::SameLine();
@@ -127,7 +127,7 @@ int main(void) {
             if (ImPlot::BeginPlot("Graph", ImVec2(-1, 0),
                                   ImPlotFlags_NoTitle)) {
                 static float constraints[4] = {-100, 100, 1, 200};
-                ImPlot::SetupAxesLimits(-1, 1, -1, 1);
+                ImPlot::SetupAxesLimits(-10, 10, -10, 10);
                 ImPlot::SetupAxisLimitsConstraints(ImAxis_X1, constraints[0],
                                                    constraints[1]);
                 ImPlot::SetupAxisZoomConstraints(ImAxis_X1, constraints[2],
