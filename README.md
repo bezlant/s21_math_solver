@@ -57,8 +57,8 @@ Implementation of the **math solver** in C following the principles of structure
 - [ ] String validation algorithm.
 - [x] Credit calculator
 - [x] Debit calculator
-- [ ] Unit Tests 
-- [ ] Add previews & tests to README
+- [x] Unit Tests 
+- [x] Add previews & tests to README
 
 ### Build
 
