@@ -17,8 +17,7 @@ int main(void) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Required on Mac
 
     /* Create a windowed mode window and it's OpenGL context */
-    GLFWwindow *window =
-        glfwCreateWindow(1280, 720, "Hello, Dear ImGui!", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1280, 720, "Math Solver", NULL, NULL);
 
     if (!window) {
         glfwTerminate();
@@ -43,21 +42,22 @@ int main(void) {
     ImGui_ImplOpenGL3_Init();
 
     // Default states start
-    bool show_demo_window = true;
+    // bool show_demo_window = false;
     bool show_credit_window = true;
     bool show_deposit_window = true;
-    bool show_plot_window = false;
-    bool show_plot_demo_window = false;
+    bool show_calc = true;
 
     ImVec4 clear_color = ImVec4(0.0, 0.376, 0.564, 1.00f);
 
-    float x_plot[180] = {0};
-    float y_plot[180] = {0};
+    ImPlotStyle &plot_style = ImPlot::GetStyle();
+    plot_style.PlotDefaultSize = ImVec2(317, 419);
 
-    int j = 0;
-    for (float i = -M_PI; j < 180 && i <= M_PI; i += M_PI / 180, j++) {
-        x_plot[j] = i;
-        y_plot[j] = sin(x_plot[j]);
+    const float TEXT_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+
+    static float x_plot[1001], y_plot[1001];
+    for (int i = 0; i < 1001; ++i) {
+        x_plot[i] = i * 0.1f - 50;
+        y_plot[i] = sinf(x_plot[i]);
     }
     // Default states end
 
@@ -70,26 +70,27 @@ int main(void) {
         ImGui::NewFrame();
 
         {
+            ImGuiStyle &style = ImGui::GetStyle();
+            style.FrameBorderSize = 1.0f;
+            static ImGuiStyle ref_saved_style;
             // Main Menu
+            ImGui::SetNextWindowPos(ImVec2(21, 19), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(418, 182), ImGuiCond_FirstUseEver);
             ImGui::Begin("Main Menu");
 
             ImGui::Text("Please choose available options: ");
-            ImGui::Checkbox("Gui Demo Window", &show_demo_window);
-            ImGui::Checkbox("Plot Demo Window", &show_plot_demo_window);
+            ImGui::Checkbox("Math Expression Evaluator", &show_calc);
             ImGui::Checkbox("Credit Calculator", &show_credit_window);
             ImGui::Checkbox("Deposit Calculator", &show_deposit_window);
-            ImGui::Checkbox("Plot", &show_plot_window);
-
-            ImGui::ColorEdit3("Background color", (float *)&clear_color);
+            if (ImGui::ShowStyleSelector("Colorscheme##Selector"))
+                ref_saved_style = style;
+            ImGui::ColorEdit3("Background Color", (float *)&clear_color);
 
             ImGui::End();
         }
 
-        if (show_plot_demo_window)
-            ImPlot::ShowDemoWindow(&show_plot_demo_window);
-
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        // if (show_demo_window)
+        //     ImGui::ShowDemoWindow(&show_demo_window);
 
         if (show_credit_window)
             show_credit_calc(show_credit_window);
@@ -97,14 +98,53 @@ int main(void) {
         if (show_deposit_window)
             show_deposit_calc(show_deposit_window);
 
-        if (show_plot_window) {
-            ImGui::Begin("Plot window", &show_plot_window);
-            if (ImPlot::BeginPlot("My plot")) {
-                ImPlot::PlotLine("My Line Plot", x_plot, y_plot, 180);
+        if (show_calc) {
+            ImGui::SetNextWindowPos(ImVec2(599, 17), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(655, 681), ImGuiCond_FirstUseEver);
+            ImGui::Begin("Math Solver", &show_calc);
+
+            ImGui::Text("Expression: ");
+            ImGui::SameLine();
+            static char expression[256] = "sin(cos(x))";
+            ImGui::InputText("##ExpressionInput", expression, 256);
+
+            ImGui::SameLine();
+
+            static int eval_clicked = 0;
+            if (ImGui::Button("Evaluate!"))
+                eval_clicked++;
+
+            if (eval_clicked & 1) {
+                // Logic for the calc here
+
+                // if calc returned null (error occured)
+                if (true) {
+                    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                                       "Error occured please try again!");
+                }
+            }
+
+            if (ImPlot::BeginPlot("Graph", ImVec2(-1, 0),
+                                  ImPlotFlags_NoTitle)) {
+                static float constraints[4] = {-100, 100, 1, 200};
+                ImPlot::SetupAxesLimits(-1, 1, -1, 1);
+                ImPlot::SetupAxisLimitsConstraints(ImAxis_X1, constraints[0],
+                                                   constraints[1]);
+                ImPlot::SetupAxisZoomConstraints(ImAxis_X1, constraints[2],
+                                                 constraints[3]);
+                ImPlot::SetupAxisLimitsConstraints(ImAxis_Y1, constraints[0],
+                                                   constraints[1]);
+                ImPlot::SetupAxisZoomConstraints(ImAxis_Y1, constraints[2],
+                                                 constraints[3]);
+                ImPlot::PlotLine("##Plot", x_plot, y_plot, 1001);
                 ImPlot::EndPlot();
             }
+
+            draw_help_table(TEXT_HEIGHT);
+
             ImGui::End();
         }
+        // ImPlot::ShowDemoWindow();
 
         // Rendering
         ImGui::Render();
@@ -138,8 +178,8 @@ void glfw_error_callback(int error, const char *description) {
 }
 
 void show_credit_calc(bool &show_credit_window) {
-    ImGui::SetNextWindowSize(ImVec2(269, 187), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowPos(ImVec2(343, 61), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowPos(ImVec2(21, 231), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(490, 179), ImGuiCond_FirstUseEver);
     ImGui::Begin("Credit Calculator", &show_credit_window);
 
     ImGui::Text("Loan Amount: ");
@@ -190,8 +230,8 @@ void show_credit_calc(bool &show_credit_window) {
 }
 
 void show_deposit_calc(bool &show_deposit_window) {
+    ImGui::SetNextWindowPos(ImVec2(21, 445), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(ImVec2(573, 253), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowPos(ImVec2(45, 317), ImGuiCond_FirstUseEver);
     ImGui::Begin("Deposit Calculator", &show_deposit_window);
 
     static int periodicity = MONTHLY;
@@ -260,4 +300,139 @@ void show_deposit_calc(bool &show_deposit_window) {
     ImGui::Text("Taxes = %.2Lf", taxes);
     ImGui::Text("Overall = %.2Lf", overall);
     ImGui::End();
+}
+
+void draw_help_table(float height) {
+    if (ImGui::BeginTable("Main_table", 2,
+                          ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
+                              ImGuiTableFlags_Reorderable |
+                              ImGuiTableFlags_Hideable)) {
+        ImGui::TableSetupColumn("Functions");
+        ImGui::TableSetupColumn("Arithmetic Operators");
+        ImGui::TableHeadersRow();
+
+        ImGui::TableNextColumn();
+        {
+            float rows_height = height * 2;
+            if (ImGui::BeginTable("Functions", 2,
+                                  ImGuiTableFlags_Borders |
+                                      ImGuiTableFlags_Resizable |
+                                      ImGuiTableFlags_Reorderable |
+                                      ImGuiTableFlags_Hideable)) {
+                ImGui::TableSetupColumn("Description");
+                ImGui::TableSetupColumn("Function");
+                ImGui::TableHeadersRow();
+
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Cosine");
+                ImGui::TableNextColumn();
+                ImGui::Text("cos(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Sine");
+                ImGui::TableNextColumn();
+                ImGui::Text("sin(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Tangent");
+                ImGui::TableNextColumn();
+                ImGui::Text("tan(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Arc cosine");
+                ImGui::TableNextColumn();
+                ImGui::Text("acos(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Arc sine");
+                ImGui::TableNextColumn();
+                ImGui::Text("asin(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Arc tangent");
+                ImGui::TableNextColumn();
+                ImGui::Text("atan(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Square root");
+                ImGui::TableNextColumn();
+                ImGui::Text("sqrt(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Natural logarithm");
+                ImGui::TableNextColumn();
+                ImGui::Text("ln(x)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Common logarithm");
+                ImGui::TableNextColumn();
+                ImGui::Text("log(x)");
+
+                ImGui::EndTable();
+            }
+        }
+        ImGui::TableNextColumn();
+        {
+            float rows_height = height * 2;
+            if (ImGui::BeginTable("Arithmetic_operators", 2,
+                                  ImGuiTableFlags_Borders |
+                                      ImGuiTableFlags_Resizable |
+                                      ImGuiTableFlags_Reorderable |
+                                      ImGuiTableFlags_Hideable)) {
+                ImGui::TableSetupColumn("Operator");
+                ImGui::TableSetupColumn("Example");
+                ImGui::TableHeadersRow();
+
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Brackets");
+                ImGui::TableNextColumn();
+                ImGui::Text("(a + b)");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Addition");
+                ImGui::TableNextColumn();
+                ImGui::Text("a + b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Subtraction");
+                ImGui::TableNextColumn();
+                ImGui::Text("a - b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Multiplication");
+                ImGui::TableNextColumn();
+                ImGui::Text("a * b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Division");
+                ImGui::TableNextColumn();
+                ImGui::Text("a / b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Power");
+                ImGui::TableNextColumn();
+                ImGui::Text("a ^ b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Modulus");
+                ImGui::TableNextColumn();
+                ImGui::Text("a %% b");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Unary plus");
+                ImGui::TableNextColumn();
+                ImGui::Text("+a");
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, rows_height);
+                ImGui::TableNextColumn();
+                ImGui::Text("Unary minus");
+                ImGui::TableNextColumn();
+                ImGui::Text("-a");
+
+                ImGui::EndTable();
+            }
+        }
+        ImGui::EndTable();
+    }
 }

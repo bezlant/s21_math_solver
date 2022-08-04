@@ -9,5 +9,6 @@
 void glfw_error_callback(int error, const char *description);
 void show_deposit_calc(bool &show_deposit_window);
 void show_credit_calc(bool &show_credit_window);
+void draw_help_table(float height);
 
 #endif  // CALC_H_
