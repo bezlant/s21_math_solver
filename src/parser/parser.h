@@ -41,7 +41,7 @@ enum {
 
 char **convert_to_rpn(char **tokens, size_t size);
 struct op_type *get_op_type(char *op);
-float calculate(char **polish);
+float calculate(char **polish, float x);
 bool is_fun(const char *op);
 bool is_unary(const char *op);
 

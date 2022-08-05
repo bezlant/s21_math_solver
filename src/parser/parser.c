@@ -26,9 +26,13 @@ float calculate(char **polish, float x) {
     struct my_stack *s = init_stack();
 
     char *end = NULL;
+    // Figure out 5^2^3
+
     for (size_t i = 0; polish[i]; i++) {
-        if (isdigit(polish[i][0]) || polish[i][0] == 'x') {
+        if (isdigit(polish[i][0])) {
             push(s, strtof(polish[i], &end));
+        } else if (polish[i][0] == 'x') {
+            push(s, x);
         } else if (is_fun(polish[i]) || is_unary(polish[i])) {
             float a = pop(s);
             push(s, get_op_type(polish[i])->eval(a, 0));
@@ -40,6 +44,7 @@ float calculate(char **polish, float x) {
     }
 
     float res = pop(s);
+    printf("%f\n", res);
     my_stack_free(s);
     return res;
 }
