@@ -15,6 +15,7 @@ Suite *suite_deposit(void);
 Suite *suite_credit(void);
 Suite *suite_lexer(void);
 Suite *suite_parser(void);
+Suite *suite_calculate(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);
