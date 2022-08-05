@@ -22,6 +22,32 @@ static struct op_type operators[] = {
     [R_BRACKET] = {")", 0, NONE, NULL},
 };
 
+float calculate(char **polish, float x) {
+    struct my_stack *s = init_stack();
+
+    char *end = NULL;
+    for (size_t i = 0; polish[i]; i++) {
+        if (isdigit(polish[i][0]) || polish[i][0] == 'x') {
+            push(s, strtof(polish[i], &end));
+        } else if (is_fun(polish[i]) || is_unary(polish[i])) {
+            float a = pop(s);
+            push(s, get_op_type(polish[i])->eval(a, 0));
+        } else {
+            float b = pop(s);
+            float a = pop(s);
+            push(s, get_op_type(polish[i])->eval(a, b));
+        }
+    }
+
+    float res = pop(s);
+    my_stack_free(s);
+    return res;
+}
+
+bool is_unary(const char *op) {
+    return *op == '~' || *op == '#';
+}
+
 char **convert_to_rpn(char **tokens, size_t size) {
 
     char **res = (char **)calloc(256, sizeof(char *));
@@ -78,7 +104,7 @@ char **convert_to_rpn(char **tokens, size_t size) {
     return res;
 }
 
-bool is_fun(char *op) {
+bool is_fun(const char *op) {
     return !strcmp(op, "sin") || !strcmp(op, "cos") || !strcmp(op, "tan") ||
            !strcmp(op, "arccos") || !strcmp(op, "arctan") ||
            !strcmp(op, "arcsin") || !strcmp(op, "sqrt") || !strcmp(op, "ln") ||
