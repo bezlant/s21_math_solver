@@ -1,40 +1,41 @@
 #include "test_calc.h"
 
 START_TEST(simple) {
-    char str[] = "sin(x) + 3 - 1 * 69 / sin(cos(ln(x))) % 15";
+    char str[] = "1 * 5";
     struct Tokens *tok = tokenize(str);
-    char expected[][23] = {
-        "sin", "(",   "x", ")",  "+", "3", "-", "1", "*", "69", "/",  "sin",
-        "(",   "cos", "(", "ln", "(", "x", ")", ")", ")", "%",  "15",
-    };
+    char expected[][25] = {"1", "5", "*"};
+    char **res = convert_to_rpn(tok->token, tok->size);
 
     for (size_t i = 0; i < tok->size; i++)
-        ck_assert_str_eq(tok->token[i], expected[i]);
+        ck_assert_str_eq(res[i], expected[i]);
 
     free_Tokens(tok);
 }
 END_TEST
 
-START_TEST(not_simple) {
-    char str[] = "1 + 3 + x - 2 / 7 * sin(x) + cos(2 / sin(x))";
+START_TEST(medium) {
+    char str[] = "(5 * 4 + 3 * 2) - 1";
     struct Tokens *tok = tokenize(str);
-    char expected[][24] = {
-        "1", "+", "3", "+",   "x", "-", "2", "/",   "7", "*", "sin", "(",
-        "x", ")", "+", "cos", "(", "2", "/", "sin", "(", "x", ")",   ")",
-    };
+    char expected[][25] = {"5", "4", "*", "3", "2", "*", "+", "1", "-"};
+    char **res = convert_to_rpn(tok->token, tok->size);
 
-    for (size_t i = 0; i < tok->size; i++)
-        ck_assert_str_eq(tok->token[i], expected[i]);
+    for (size_t i = 0; i < tok->size - 2; i++)
+        ck_assert_str_eq(res[i], expected[i]);
 
     free_Tokens(tok);
 }
 END_TEST
 
-START_TEST(error) {
-    char str[] = "____ 1 + 3 + x - 2 / 7 * sin(x) + cos(2 / sin(x))";
+START_TEST(funcs) {
+    char str[] = "sin(x) * 1";
     struct Tokens *tok = tokenize(str);
+    char expected[][25] = {"x", "sin", "1", "*"};
+    char **res = convert_to_rpn(tok->token, tok->size);
 
-    ck_assert_ptr_null(tok);
+    for (size_t i = 0; i < tok->size - 2; i++)
+        ck_assert_str_eq(res[i], expected[i]);
+
+    free_Tokens(tok);
 }
 END_TEST
 
@@ -43,8 +44,8 @@ Suite *suite_parser(void) {
     TCase *tc = tcase_create("parser");
 
     tcase_add_test(tc, simple);
-    tcase_add_test(tc, not_simple);
-    tcase_add_test(tc, error);
+    tcase_add_test(tc, medium);
+    tcase_add_test(tc, funcs);
 
     suite_add_tcase(s, tc);
     return s;

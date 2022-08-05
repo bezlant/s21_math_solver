@@ -5,7 +5,6 @@
 #include "../deposit_calc/deposit_calc.h"
 #include "../parser/lexer.h"
 #include "../parser/parser.h"
-#include "../stack/stack.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
