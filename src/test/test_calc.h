@@ -4,7 +4,7 @@
 #include "../credit_calc/credit_calc.h"
 #include "../deposit_calc/deposit_calc.h"
 #include "../parser/lexer.h"
-#include "../stack/stack.h"
+#include "../parser/parser.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +14,7 @@ Suite *suite_stack(void);
 Suite *suite_deposit(void);
 Suite *suite_credit(void);
 Suite *suite_lexer(void);
+Suite *suite_parser(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

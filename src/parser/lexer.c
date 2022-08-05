@@ -1,38 +1,22 @@
 #include "lexer.h"
 
-// int main(int argc, char *argv[]) {
-//
-//     char str[] = "5 + sin(x) * ln(23) / 25.233 * cos(sin(ln(x)))";
-//     TRACE_PRINT("%s", str);
-//
-//     struct Tokens *tok = tokenize(str);
-//     for (int i = 0; i < tok->size; i++)
-//         printf("%s\n", tok->token[i]);
-//
-//     for (int i = 0; i < tok->size; i++)
-//         free(tok->token[i]);
-//     free(tok);
-//     return 0;
-// }
-
 struct Tokens *tokenize(char *str) {
     if (!is_valid(str))
         return NULL;
 
     struct Tokens *tok = (struct Tokens *)calloc(1, sizeof(struct Tokens));
     CHECKMALLOC(tok);
-    struct Lexer *lex = (struct Lexer *)calloc(1, sizeof(struct Lexer));
-    CHECKMALLOC(lex);
-    lex->source = str;
-    lex->cursor = 0;
 
-    while (lex->source[lex->cursor]) {
-        read_number(lex, tok);
-        read_function(lex, tok);
-        read_symbol(lex, tok);
+    struct Lexer lex = {.source = str};
+
+    while (lex.source[lex.cursor]) {
+        read_number(&lex, tok);
+        read_function(&lex, tok);
+        read_symbol(&lex, tok);
     }
 
-    free(lex);
+    replace_unary(tok);
+
     return tok;
 }
 
@@ -120,4 +104,19 @@ void free_Tokens(struct Tokens *tok) {
         free(tok->token[i]);
 
     free(tok);
+}
+
+void replace_unary(struct Tokens *tok) {
+    bool is_prev_num = false;
+    for (size_t i = 0; i < tok->size; i++) {
+        if (isdigit(tok->token[i][0]) || tok->token[i][0] == 'x') {
+            is_prev_num = true;
+        } else if (tok->token[i][0] != ')' && tok->token[i][0] != '(') {
+            if (tok->token[i][0] == '+' && !is_prev_num)
+                tok->token[i][0] = '#';
+            if (tok->token[i][0] == '-' && !is_prev_num)
+                tok->token[i][0] = '~';
+            is_prev_num = false;
+        }
+    }
 }
