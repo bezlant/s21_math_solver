@@ -2,10 +2,7 @@
 #define LEXER_H_
 
 #include "../includes/common.h"
-#include <ctype.h>
 #include <pcre.h>
-#include <regex.h>
-#include <string.h>
 
 struct Tokens {
     char *token[256];
@@ -62,6 +59,13 @@ void skip_spaces(struct Lexer *lex);
  * @return 1 if valid otherwise 0
  */
 bool is_valid(char *str);
+
+/**
+ * @brief Replaces unary operators - becomes ~, + becomes #
+ *
+ * @param tok Pointer to the tokens structure
+ */
+void replace_unary(struct Tokens *tok);
 
 /**
  * @brief Frees up memory allocated for the struct Tokens
