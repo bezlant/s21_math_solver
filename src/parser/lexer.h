@@ -5,7 +5,8 @@
 #include <pcre.h>
 
 struct Tokens {
-    char *token[256];
+    size_t type[256];
+    float value[256];
     size_t size;
 };
 
@@ -74,4 +75,20 @@ void replace_unary(struct Tokens *tok);
  */
 void free_Tokens(struct Tokens *tok);
 
+/**
+ * @brief Getting a symbol in enum representation (* becomes MUL, 123 becomes
+ * NUM)
+ *
+ * @param c Symbol to convert
+ * @return Enum representation
+ */
+size_t get_symbol(char c);
+
+/**
+ * @brief Getting a function in enum representation (sin becomes SIN, etc)
+ *
+ * @param fun String to convert
+ * @return Enum representation
+ */
+size_t get_fun(const char *fun);
 #endif  // LEXER_H_
