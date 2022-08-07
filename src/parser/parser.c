@@ -56,8 +56,9 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
     struct Tokens *rpn = (struct Tokens *)calloc(1, sizeof(struct Tokens));
 
     for (size_t i = 0; i < expression->size;) {
-        if (expression->type[i] == NUM) {
-            rpn->type[rpn->size] = NUM;
+        // TRACE_VALUE("", expression->type[i]);
+        if (expression->type[i] == NUM || expression->type[i] == X) {
+            rpn->type[rpn->size] = expression->type[i] == NUM ? NUM : X;
             rpn->value[rpn->size] = expression->value[i];
             rpn->size++;
             i++;
