@@ -17,33 +17,13 @@ enum {
     NONE
 };
 
-enum {
-    ADD = 0,
-    SUB,
-    MUL,
-    DIV,
-    POW,
-    MOD,
-    UNARY_ADD,
-    UNARY_SUB,
-    COS,
-    SIN,
-    TAN,
-    ARCCOS,
-    ARCSIN,
-    ARCTAN,
-    SQRT,
-    LN,
-    LOG,
-    L_BRACKET,
-    R_BRACKET
-};
+struct Tokens *convert_to_rpn(struct Tokens *expression);
 
-char **convert_to_rpn(char **tokens, size_t size);
-struct op_type *get_op_type(char *op);
+bool is_fun(size_t op);
+bool is_unary(size_t op);
+bool is_op(size_t op);
+
 float calculate(char **polish, float x);
-bool is_fun(const char *op);
-bool is_unary(const char *op);
 
 float eval_add(float a, float b);
 float eval_sub(float a, float b);

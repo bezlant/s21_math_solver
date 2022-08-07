@@ -17,8 +17,8 @@ enum {
     DIV,
     POW,
     MOD,
-    UNARY_ADD,
     UNARY_SUB,
+    UNARY_ADD,
     COS,
     SIN,
     TAN,
@@ -32,6 +32,12 @@ enum {
     R_BRACKET,
     NUM,
     X,
+};
+
+struct Tokens {
+    size_t type[256];
+    float value[256];
+    size_t size;
 };
 
 #define CHECKMALLOC(var)                                                       \

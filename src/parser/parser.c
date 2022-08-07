@@ -1,129 +1,122 @@
 #include "parser.h"
 
 static struct op_type operators[] = {
-    [ADD] = {"+", 5, LEFT, eval_add},
-    [SUB] = {"-", 5, LEFT, eval_sub},
-    [MUL] = {"*", 8, LEFT, eval_mul},
-    [DIV] = {"/", 8, LEFT, eval_div},
-    [POW] = {"^", 9, RIGHT, eval_pow},
-    [MOD] = {"%", 8, LEFT, eval_mod},
-    [UNARY_ADD] = {"~", 10, RIGHT, eval_usub},
-    [UNARY_SUB] = {"#", 10, RIGHT, eval_uadd},
-    [COS] = {"cos", 3, LEFT, eval_cos},
-    [SIN] = {"sin", 3, LEFT, eval_sin},
-    [TAN] = {"tan", 3, LEFT, eval_tan},
-    [ARCCOS] = {"arccos", 3, LEFT, eval_arccos},
-    [ARCSIN] = {"arcsin", 3, LEFT, eval_arcsin},
-    [ARCTAN] = {"arctan", 3, LEFT, eval_arctan},
-    [SQRT] = {"sqrt", 3, LEFT, eval_sqrt},
-    [LN] = {"ln", 3, LEFT, eval_ln},
-    [LOG] = {"log", 3, LEFT, eval_log},
-    [L_BRACKET] = {"(", 0, NONE, NULL},
-    [R_BRACKET] = {")", 0, NONE, NULL},
+    {"+", 5, LEFT, eval_add},
+    {"-", 5, LEFT, eval_sub},
+    {"*", 8, LEFT, eval_mul},
+    {"/", 8, LEFT, eval_div},
+    {"^", 9, RIGHT, eval_pow},
+    {"%", 8, LEFT, eval_mod},
+    {"~", 10, RIGHT, eval_usub},
+    {"#", 10, RIGHT, eval_uadd},
+    {"cos", 3, LEFT, eval_cos},
+    {"sin", 3, LEFT, eval_sin},
+    {"tan", 3, LEFT, eval_tan},
+    {"arccos", 3, LEFT, eval_arccos},
+    {"arcsin", 3, LEFT, eval_arcsin},
+    {"arctan", 3, LEFT, eval_arctan},
+    {"sqrt", 3, LEFT, eval_sqrt},
+    {"ln", 3, LEFT, eval_ln},
+    {"log", 3, LEFT, eval_log},
+    {"(", 0, NONE, NULL},
+    {")", 0, NONE, NULL},
 };
 
-float calculate(char **polish, float x) {
-    struct my_stack *s = init_stack();
+// float calculate(char **polish, float x) {
+//     struct my_stack *s = init_stack();
+//
+//     char *end = NULL;
+//
+//     for (size_t i = 0; polish[i]; i++) {
+//         if (isdigit(polish[i][0])) {
+//             push(s, strtof(polish[i], &end));
+//         } else if (polish[i][0] == 'x') {
+//             push(s, x);
+//         } else if (is_fun(polish[i]) || is_unary(polish[i])) {
+//             float a = pop(s);
+//             push(s, get_op_type(polish[i])->eval(a, 0));
+//         } else {
+//             float b = pop(s);
+//             float a = pop(s);
+//             push(s, get_op_type(polish[i])->eval(a, b));
+//         }
+//     }
+//
+//     float res = pop(s);
+//     my_stack_free(s);
+//     return res;
+// }
+//
 
-    char *end = NULL;
-    // Figure out 5^2^3
-
-    for (size_t i = 0; polish[i]; i++) {
-        if (isdigit(polish[i][0])) {
-            push(s, strtof(polish[i], &end));
-        } else if (polish[i][0] == 'x') {
-            push(s, x);
-        } else if (is_fun(polish[i]) || is_unary(polish[i])) {
-            float a = pop(s);
-            push(s, get_op_type(polish[i])->eval(a, 0));
-        } else {
-            float b = pop(s);
-            float a = pop(s);
-            push(s, get_op_type(polish[i])->eval(a, b));
-        }
-    }
-
-    float res = pop(s);
-    my_stack_free(s);
-    return res;
-}
-
-bool is_unary(const char *op) {
-    return *op == '~' || *op == '#';
-}
-
-char **convert_to_rpn(char **tokens, size_t size) {
-
-    char **res = (char **)calloc(256, sizeof(char *));
+struct Tokens *convert_to_rpn(struct Tokens *expression) {
+    size_t *res = (size_t *)calloc(256, sizeof(size_t));
     CHECKMALLOC(res);
-    char **ops = (char **)calloc(8, sizeof(char *));
-    CHECKMALLOC(ops);
 
-    size_t op_idx = 0;
-    size_t idx = 0;
+    struct my_stack *s = init_stack();
+    struct Tokens *rpn = (struct Tokens *)calloc(1, sizeof(struct Tokens));
 
-    for (size_t i = 0; i < size; i++) {
-        char *tok = tokens[i];
-        if (isdigit(tok[0]) || tok[0] == 'x') {
-            res[idx] = tok;
-            idx++;
-        } else if (is_fun(tok) || tok[0] == '(') {
-            ops[op_idx] = tok;
-            op_idx++;
-        } else if (tok[0] == ')') {
-            while (ops[op_idx - 1][0] != '(') {
-                op_idx--;
-                res[idx] = get_op_type(ops[op_idx])->op;
-                idx++;
+    for (size_t i = 0; i < expression->size;) {
+        if (expression->type[i] == NUM) {
+            rpn->type[rpn->size] = NUM;
+            rpn->value[rpn->size] = expression->value[i];
+            rpn->size++;
+            i++;
+        } else if (is_fun(expression->type[i]) ||
+                   expression->type[i] == L_BRACKET) {
+            push(s, expression->type[i]);
+            i++;
+        } else if (is_op(expression->type[i])) {
+            while (!is_empty(s) && is_op(peek(s)) &&
+                   ((operators[(size_t)peek(s)].precedence >
+                     operators[(size_t)expression->type[i]].precedence) ||
+                    (operators[(size_t)peek(s)].precedence ==
+                         operators[(size_t)expression->type[i]].precedence &&
+                     operators[expression->type[i]].associativity == LEFT))) {
+                rpn->type[rpn->size] = pop(s);
+                rpn->size++;
             }
-            op_idx--;
+            push(s, expression->type[i]);
+            i++;
+        } else if (expression->type[i] == R_BRACKET) {
+            while (!is_empty(s) && peek(s) != L_BRACKET) {
+                rpn->type[rpn->size] = pop(s);
+                rpn->size++;
+                i++;
+            }
 
-            if (op_idx > 0) {
-                char *cur_op = get_op_type(ops[op_idx - 1])->op;
-                if (is_fun(cur_op)) {
-                    res[idx] = cur_op;
-                    idx++;
-                }
+            pop(s);
+
+            if (!is_empty(s) && is_fun(peek(s))) {
+                rpn->type[rpn->size] = pop(s);
+                rpn->size++;
+                i++;
             }
-        } else {
-            while (op_idx > 0 && !is_fun(ops[op_idx - 1]) &&
-                   ops[op_idx - 1][0] != '(' &&
-                   get_op_type(ops[op_idx - 1])->precedence >=
-                       get_op_type(tok)->precedence) {
-                op_idx--;
-                res[idx] = ops[op_idx];
-                idx++;
-            }
-            ops[op_idx] = tok;
-            op_idx++;
         }
     }
 
-    while (op_idx) {
-        op_idx--;
-        res[idx] = ops[op_idx];
-        idx++;
+    while (!is_empty(s)) {
+        size_t op = pop(s);
+        if (op == L_BRACKET || op == R_BRACKET)
+            return NULL;
+        else
+            rpn->type[rpn->size] = op;
+        rpn->size++;
     }
-
-    return res;
+    return rpn;
 }
 
-bool is_fun(const char *op) {
-    return !strcmp(op, "sin") || !strcmp(op, "cos") || !strcmp(op, "tan") ||
-           !strcmp(op, "arccos") || !strcmp(op, "arctan") ||
-           !strcmp(op, "arcsin") || !strcmp(op, "sqrt") || !strcmp(op, "ln") ||
-           !strcmp(op, "log");
+bool is_op(size_t op) {
+    return op == ADD || op == SUB || op == MUL || op == DIV || op == POW ||
+           op == MOD;
 }
 
-struct op_type *get_op_type(char *op) {
-    struct op_type *res = NULL;
-    for (size_t i = 0; i < sizeof(operators) / sizeof(operators[0]); i++) {
-        if (!strcmp(operators[i].op, op)) {
-            res = operators + i;
-            break;
-        }
-    }
-    return res;
+bool is_fun(size_t op) {
+    return op == SIN || op == COS || op == TAN || op == ARCSIN ||
+           op == ARCCOS || op == ARCTAN || op == LN || op == LOG || op == SQRT;
+}
+
+bool is_unary(size_t op) {
+    return op == UNARY_SUB || op == UNARY_ADD;
 }
 
 float eval_add(float a, float b) {
@@ -143,7 +136,7 @@ float eval_div(float a, float b) {
 }
 
 float eval_pow(float a, float b) {
-    return pow(a, b);
+    return powf(a, b);
 }
 
 float eval_mod(float a, float b) {

@@ -4,12 +4,6 @@
 #include "../includes/common.h"
 #include <pcre.h>
 
-struct Tokens {
-    size_t type[256];
-    float value[256];
-    size_t size;
-};
-
 struct Lexer {
     char *source;
     size_t cursor;
