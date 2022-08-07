@@ -70,6 +70,20 @@ START_TEST(sincos) {
 }
 END_TEST
 
+START_TEST(powpow) {
+    char str[] = "5^2^3";
+    struct Tokens *tok = tokenize(str);
+
+    size_t expected[] = {NUM, NUM, NUM, POW, POW};
+    struct Tokens *res = convert_to_rpn(tok);
+
+    for (size_t i = 0; i < res->size; i++)
+        ck_assert_uint_eq(res->type[i], expected[i]);
+
+    free_Tokens(tok);
+}
+END_TEST
+
 Suite *suite_parser(void) {
     Suite *s = suite_create("suite_parser");
     TCase *tc = tcase_create("parser");
@@ -79,6 +93,7 @@ Suite *suite_parser(void) {
     tcase_add_test(tc, medium);
     tcase_add_test(tc, funcs);
     tcase_add_test(tc, sincos);
+    tcase_add_test(tc, powpow);
 
     suite_add_tcase(s, tc);
     return s;
