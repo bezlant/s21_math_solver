@@ -23,7 +23,7 @@ bool is_fun(size_t op);
 bool is_unary(size_t op);
 bool is_op(size_t op);
 
-float calculate(char **polish, float x);
+float calculate(struct Tokens *expr, float x);
 
 float eval_add(float a, float b);
 float eval_sub(float a, float b);

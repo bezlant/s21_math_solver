@@ -22,31 +22,32 @@ static struct op_type operators[] = {
     {")", 0, NONE, NULL},
 };
 
-// float calculate(char **polish, float x) {
-//     struct my_stack *s = init_stack();
-//
-//     char *end = NULL;
-//
-//     for (size_t i = 0; polish[i]; i++) {
-//         if (isdigit(polish[i][0])) {
-//             push(s, strtof(polish[i], &end));
-//         } else if (polish[i][0] == 'x') {
-//             push(s, x);
-//         } else if (is_fun(polish[i]) || is_unary(polish[i])) {
-//             float a = pop(s);
-//             push(s, get_op_type(polish[i])->eval(a, 0));
-//         } else {
-//             float b = pop(s);
-//             float a = pop(s);
-//             push(s, get_op_type(polish[i])->eval(a, b));
-//         }
-//     }
-//
-//     float res = pop(s);
-//     my_stack_free(s);
-//     return res;
-// }
-//
+float calculate(struct Tokens *expr, float x) {
+    struct my_stack *s = init_stack();
+    // for (size_t i = 0; i < expr->size; i++) {
+    //     printf("%zu ", expr->type[i]);
+    // }
+    // puts("");
+
+    for (size_t i = 0; i < expr->size; i++) {
+        if (expr->type[i] == NUM) {
+            push(s, expr->value[i]);
+        } else if (expr->type[i] == X) {
+            push(s, x);
+        } else if (is_fun(expr->type[i]) || is_unary(expr->type[i])) {
+            float a = pop(s);
+            push(s, operators[expr->type[i]].eval(a, 0));
+        } else {
+            float b = pop(s);
+            float a = pop(s);
+            push(s, operators[expr->type[i]].eval(a, b));
+        }
+    }
+
+    float res = pop(s);
+    my_stack_free(s);
+    return res;
+}
 
 struct Tokens *convert_to_rpn(struct Tokens *expression) {
     size_t *res = (size_t *)calloc(256, sizeof(size_t));
@@ -56,7 +57,6 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
     struct Tokens *rpn = (struct Tokens *)calloc(1, sizeof(struct Tokens));
 
     for (size_t i = 0; i < expression->size;) {
-        // TRACE_VALUE("", expression->type[i]);
         if (expression->type[i] == NUM || expression->type[i] == X) {
             rpn->type[rpn->size] = expression->type[i] == NUM ? NUM : X;
             rpn->value[rpn->size] = expression->value[i];
