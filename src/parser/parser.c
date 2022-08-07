@@ -1,14 +1,14 @@
 #include "parser.h"
 
 static struct op_type operators[] = {
-    [UNARY_ADD] = {"~", 10, RIGHT, eval_usub},
-    [UNARY_SUB] = {"#", 10, RIGHT, eval_uadd},
-    [POW] = {"^", 9, RIGHT, eval_pow},
-    [MUL] = {"*", 8, LEFT, eval_mul},
-    [DIV] = {"/", 8, LEFT, eval_div},
-    [MOD] = {"%", 8, LEFT, eval_mod},
     [ADD] = {"+", 5, LEFT, eval_add},
     [SUB] = {"-", 5, LEFT, eval_sub},
+    [MUL] = {"*", 8, LEFT, eval_mul},
+    [DIV] = {"/", 8, LEFT, eval_div},
+    [POW] = {"^", 9, RIGHT, eval_pow},
+    [MOD] = {"%", 8, LEFT, eval_mod},
+    [UNARY_ADD] = {"~", 10, RIGHT, eval_usub},
+    [UNARY_SUB] = {"#", 10, RIGHT, eval_uadd},
     [COS] = {"cos", 3, LEFT, eval_cos},
     [SIN] = {"sin", 3, LEFT, eval_sin},
     [TAN] = {"tan", 3, LEFT, eval_tan},
@@ -44,7 +44,6 @@ float calculate(char **polish, float x) {
     }
 
     float res = pop(s);
-    printf("%f\n", res);
     my_stack_free(s);
     return res;
 }
