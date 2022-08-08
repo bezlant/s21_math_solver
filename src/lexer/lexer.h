@@ -85,4 +85,5 @@ size_t get_symbol(char c);
  * @return Enum representation
  */
 size_t get_fun(const char *fun);
+
 #endif  // LEXER_H_
