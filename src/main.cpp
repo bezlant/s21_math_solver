@@ -116,7 +116,7 @@ int main(void) {
                 struct Tokens *tok = tokenize(expression);
                 if (tok) {
                     err = false;
-                    char **rpn = convert_to_rpn(tok->token, tok->size);
+                    struct Tokens *rpn = convert_to_rpn(tok);
 
                     size_t j = 0;
                     for (long double i = -1000; i <= 1000;

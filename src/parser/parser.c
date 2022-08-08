@@ -24,10 +24,6 @@ static struct op_type operators[] = {
 
 float calculate(struct Tokens *expr, float x) {
     struct my_stack *s = init_stack();
-    // for (size_t i = 0; i < expr->size; i++) {
-    //     printf("%zu ", expr->type[i]);
-    // }
-    // puts("");
 
     for (size_t i = 0; i < expr->size; i++) {
         if (expr->type[i] == NUM) {
@@ -57,9 +53,13 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
     struct Tokens *rpn = (struct Tokens *)calloc(1, sizeof(struct Tokens));
 
     for (size_t i = 0; i < expression->size;) {
-        if (expression->type[i] == NUM || expression->type[i] == X) {
-            rpn->type[rpn->size] = expression->type[i] == NUM ? NUM : X;
+        if (expression->type[i] == NUM) {
+            rpn->type[rpn->size] = expression->type[i];
             rpn->value[rpn->size] = expression->value[i];
+            rpn->size++;
+            i++;
+        } else if (expression->type[i] == X) {
+            rpn->type[rpn->size] = X;
             rpn->size++;
             i++;
         } else if (is_fun(expression->type[i]) ||
@@ -82,7 +82,6 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
             while (!is_empty(s) && peek(s) != L_BRACKET) {
                 rpn->type[rpn->size] = pop(s);
                 rpn->size++;
-                i++;
             }
 
             pop(s);
@@ -90,8 +89,8 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
             if (!is_empty(s) && is_fun(peek(s))) {
                 rpn->type[rpn->size] = pop(s);
                 rpn->size++;
-                i++;
             }
+            i++;
         }
     }
 
@@ -108,7 +107,7 @@ struct Tokens *convert_to_rpn(struct Tokens *expression) {
 
 bool is_op(size_t op) {
     return op == ADD || op == SUB || op == MUL || op == DIV || op == POW ||
-           op == MOD;
+           op == MOD || op == UNARY_SUB || op == UNARY_ADD;
 }
 
 bool is_fun(size_t op) {
