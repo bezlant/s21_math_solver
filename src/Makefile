@@ -2,10 +2,12 @@ CXX = g++
 
 EXE = math_solver
 IMGUI_DIR = ./imgui
-IMPLOT_DIR = $(IMGUI_DIR)/implot
+IMPLOT_DIR = ./implot
 CREDIT_DIR = ./credit_calc
 DEPOSIT_DIR = ./deposit_calc
-PARSER_DIR = ./parser
+PARSER_DIR = ./shunting_yard
+LEXER_DIR = ./lexer
+CALC_DIR = ./calc
 STACK_DIR = ./stack
 
 SOURCES = main.cpp
@@ -14,8 +16,10 @@ SOURCES += $(IMPLOT_DIR)/implot.cpp $(IMPLOT_DIR)/implot_items.cpp $(IMPLOT_DIR)
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
 SOURCES += $(CREDIT_DIR)/credit_calc.c
 SOURCES += $(DEPOSIT_DIR)/deposit_calc.c
-SOURCES += $(PARSER_DIR)/parser.c $(PARSER_DIR)/lexer.c
+SOURCES += $(PARSER_DIR)/shunting.c 
+SOURCES += $(LEXER_DIR)/lexer.c 
 SOURCES += $(STACK_DIR)/stack.c 
+SOURCES += $(CALC_DIR)/calc.c 
 
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
@@ -57,6 +61,12 @@ endif
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 %.o:$(DEPOSIT_DIR)/%.c
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
+
+%.o:$(LEXER_DIR)/%.c
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
+
+%.o:$(CALC_DIR)/%.c
 	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(PARSER_DIR)/%.c

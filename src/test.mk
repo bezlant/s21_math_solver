@@ -7,7 +7,7 @@ LDFLAGS 		:= 		$(shell pkg-config --libs --cflags check) -lm -lpcre
 TARGET			:= 		tests
 TARGET_LIB  	:=		s21_calc_test.a 
 
-MODULES			:= 		$(shell find . -type d | grep -E "stack|credit_calc|deposit_calc|parser")
+MODULES			:= 		$(shell find . -type d | grep -E "stack|credit_calc|deposit_calc|lexer|shunting_yard|calc")
 TEST_MODULES	:= 		$(shell find . -type d | grep -E "test")
 
 SRC				:= 		$(notdir $(shell find $(MODULES) -maxdepth 1 -name "*.c"))

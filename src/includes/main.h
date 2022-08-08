@@ -1,11 +1,13 @@
-#ifndef CALC_H_
-#define CALC_H_
+#ifndef MAIN_H_
+#define MAIN_H_
 
+#include "../calc/calc.h"
 #include "../credit_calc/credit_calc.h"
 #include "../deposit_calc/deposit_calc.h"
-#include "../parser/lexer.h"
-#include "../parser/parser.h"
+#include "../lexer/lexer.h"
+#include "../shunting_yard/shunting.h"
 #include "common.h"
+#include "gui.h"
 
 /**
  * @brief Helps figure out what error occured in glfw
@@ -36,4 +38,4 @@ void show_credit_calc(bool &show_credit_window);
  */
 void draw_help_table(float height);
 
-#endif  // CALC_H_
+#endif  // MAIN_H_

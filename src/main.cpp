@@ -1,6 +1,5 @@
 #define GL_SILENCE_DEPRECATION
-#include "includes/calc.h"
-#include "includes/gui.h"
+#include "includes/main.h"
 
 #define MAX 420420
 

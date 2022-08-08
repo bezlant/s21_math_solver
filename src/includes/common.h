@@ -40,10 +40,27 @@ struct Tokens {
     size_t size;
 };
 
+struct op_type {
+    char op[8];
+    short precedence;
+    short associativity;
+    long double (*eval)(long double a, long double b);
+};
+
+enum {
+    RIGHT,
+    LEFT,
+    NONE
+};
+
 #define CHECKMALLOC(var)                                                       \
     if ((var) == NULL) {                                                       \
         fprintf(stderr, "ERROR: Memory allocation failed\n");                  \
         abort();                                                               \
     }
+
+bool is_fun(size_t op);
+bool is_unary(size_t op);
+bool is_op(size_t op);
 
 #endif  // COMMON_H_

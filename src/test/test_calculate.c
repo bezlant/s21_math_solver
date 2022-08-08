@@ -159,6 +159,26 @@ START_TEST(complex_2) {
 }
 END_TEST
 
+START_TEST(error_1) {
+    char str[] = "sin(x) + 1)";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+    ck_assert_ptr_null(res);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(error_2) {
+    char str[] = "()**(()))";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+    ck_assert_ptr_null(res);
+
+    free_Tokens(tok);
+}
+END_TEST
+
 Suite *suite_calculate(void) {
     Suite *s = suite_create("suite_calculate");
     TCase *tc = tcase_create("calculate");
@@ -173,6 +193,8 @@ Suite *suite_calculate(void) {
     tcase_add_test(tc, complex_1);
     tcase_add_test(tc, complex);
     tcase_add_test(tc, complex_2);
+    tcase_add_test(tc, error_1);
+    tcase_add_test(tc, error_2);
 
     suite_add_tcase(s, tc);
     return s;
