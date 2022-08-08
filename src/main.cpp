@@ -2,6 +2,8 @@
 #include "includes/calc.h"
 #include "includes/gui.h"
 
+#define MAX 420420
+
 int main(void) {
     /* Get human-readable error outputs */
     glfwSetErrorCallback(glfw_error_callback);
@@ -54,11 +56,8 @@ int main(void) {
 
     const float TEXT_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
 
-    static float x_plot[1001], y_plot[1001];
-    for (int i = 0; i < 1001; ++i) {
-        x_plot[i] = i * 0.1f - 50;
-        y_plot[i] = sinf(x_plot[i]);
-    }
+    static float x_plot[MAX + 1] = {0};
+    static float y_plot[MAX + 1] = {0};
     // Default states end
 
     while (!glfwWindowShouldClose(window)) {
@@ -89,9 +88,6 @@ int main(void) {
             ImGui::End();
         }
 
-        // if (show_demo_window)
-        //     ImGui::ShowDemoWindow(&show_demo_window);
-
         if (show_credit_window)
             show_credit_calc(show_credit_window);
 
@@ -114,14 +110,31 @@ int main(void) {
             if (ImGui::Button("Evaluate!"))
                 eval_clicked++;
 
-            if (eval_clicked & 1) {
+            static bool err = false;
+            if (eval_clicked) {
                 // Logic for the calc here
+                struct Tokens *tok = tokenize(expression);
+                if (tok) {
+                    err = false;
+                    struct Tokens *rpn = convert_to_rpn(tok);
 
-                // if calc returned null (error occured)
-                if (true) {
-                    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
-                                       "Error occured please try again!");
+                    size_t j = 0;
+                    for (long double i = -1000; i <= 1000;
+                         i += 2000.0L / MAX, j++) {
+                        x_plot[j] = i;
+                        y_plot[j] = calculate(rpn, x_plot[j]);
+                    }
+
+                    eval_clicked = 0;
+                } else {
+                    err = true;
                 }
+            }
+
+            // if calc returned null (error occured)
+            if (err) {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                                   "Error occured please try again!");
             }
 
             if (ImPlot::BeginPlot("Graph", ImVec2(-1, 0),
@@ -136,7 +149,7 @@ int main(void) {
                                                    constraints[1]);
                 ImPlot::SetupAxisZoomConstraints(ImAxis_Y1, constraints[2],
                                                  constraints[3]);
-                ImPlot::PlotLine("##Plot", x_plot, y_plot, 1001);
+                ImPlot::PlotLine("##Plot", x_plot, y_plot, MAX + 1);
                 ImPlot::EndPlot();
             }
 

@@ -16,15 +16,18 @@ void push(struct my_stack *const s, float x) {
 
 float pop(struct my_stack *s) {
     assert(s != NULL);
+    assert(s->idx != -1);
     return s->stack[s->idx--];
 }
 
 bool is_empty(struct my_stack *s) {
     assert(s != NULL);
+    assert(s->idx >= -1);
     return s->idx >= 0 ? false : true;
 }
 
 float peek(struct my_stack *s) {
+    assert(s != NULL);
     assert(s->idx != -1);
     return s->stack[s->idx];
 }

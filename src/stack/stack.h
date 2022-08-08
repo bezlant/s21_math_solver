@@ -17,6 +17,7 @@ struct my_stack {
  *  int idx;
  *  };
  */
+
 struct my_stack *init_stack();
 
 /**
