@@ -38,17 +38,17 @@ $(TARGET_LIB)	: $(OBJS)
 					ranlib $(TARGET_LIB)
 	
 
-# gcov: $(TARGET_TEST)
-# 	gcov $(TEST_SRC) $(SRC)
+gcov: $(TARGET)
+	gcov $(TEST_SRC) $(SRC)
 
-# coverage.info: gcov
-# 	lcov --capture --directory . --output-file coverage.info
+coverage.info: gcov
+	lcov --capture --directory ./objs --output-file coverage.info
 
-# report: coverage.info
-# 	genhtml coverage.info --output-directory coverage
+gcov_report: coverage.info
+	genhtml coverage.info --output-directory coverage
 
-# open:
-# 	open coverage/index.html
+open:
+	open coverage/index.html
 
 debug			:
 					$(info TARGET = $(TARGET))
@@ -66,6 +66,7 @@ clean			:
 					rm -rf $(OBJS_DIR)
 					rm -rf $(TARGET_LIB)
 					rm -rf $(TARGET)
+					rm -rf coverage*
 
 re: clean $(TARGET)
 

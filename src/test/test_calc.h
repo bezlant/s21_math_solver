@@ -21,6 +21,4 @@ Suite *suite_calculate(void);
 void run_tests(void);
 void run_testcase(Suite *testcase);
 
-double get_rand(double min, double max);
-
 #endif  //  TEST_CALC_H_
