@@ -126,8 +126,34 @@ START_TEST(complex) {
     struct Tokens *tok = tokenize(str);
     struct Tokens *res = convert_to_rpn(tok);
 
-    long double exp = -0.899891;
-    ck_assert_ldouble_eq_tol(exp, calculate(res, 0), 1e-06);
+    long double expected = -0.899891;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(complex_1) {
+    char str[] =
+        "2.4474 /8.0162/ 3.2142+tan( 0.6211 +sin(tan( 7.5952 +5.3702) ) - 4.7121^sin(  1.9427- 2.8496) ) / cos(0.2688 ^ 0.5391 + cos(tan(cos(cos(5.6221))) / sin(2.3295) -tan(cos(tan(cos(9.2239)))))) ";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = 1.660108415837855;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(complex_2) {
+    char str[] =
+        "tan( 3.764) ^sin( 9.445-sin( 7.2889 /  8.0438 -cos( sin(cos( tan(8.4448))) - 4.482)  )  / tan(cos(cos(sin(cos( cos(2.003)) )  ) / 0.1315) ))  -  8.8453/ 0.3612";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = -23.76667454586336;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
 
     free_Tokens(tok);
 }
@@ -144,7 +170,9 @@ Suite *suite_calculate(void) {
     tcase_add_test(tc, unary);
     tcase_add_test(tc, functional);
     tcase_add_test(tc, more_funcs);
+    tcase_add_test(tc, complex_1);
     tcase_add_test(tc, complex);
+    tcase_add_test(tc, complex_2);
 
     suite_add_tcase(s, tc);
     return s;
