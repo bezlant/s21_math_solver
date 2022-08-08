@@ -1,5 +1,5 @@
-#ifndef PARSER_H_
-#define PARSER_H_
+#ifndef CALC_H_
+#define CALC_H_
 
 #include "../includes/common.h"
 #include "../stack/stack.h"
@@ -23,4 +23,4 @@ long double eval_arctan(long double a, long double b);
 long double eval_sqrt(long double a, long double b);
 long double eval_ln(long double a, long double b);
 long double eval_log(long double a, long double b);
-#endif  // PARSER_H_
+#endif  // CALC_H_
