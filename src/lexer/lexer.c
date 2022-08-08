@@ -49,10 +49,9 @@ size_t get_symbol(char c) {
         return POW;
     case '(':
         return L_BRACKET;
-    case ')':
+    default:
         return R_BRACKET;
     }
-    return -1;
 }
 
 void read_number(struct Lexer *lex, struct Tokens *tok) {
@@ -96,23 +95,22 @@ void read_function(struct Lexer *lex, struct Tokens *tok) {
 size_t get_fun(const char *fun) {
     if (!strcmp(fun, "sin"))
         return SIN;
-    if (!strcmp(fun, "cos"))
+    else if (!strcmp(fun, "cos"))
         return COS;
-    if (!strcmp(fun, "tan"))
+    else if (!strcmp(fun, "tan"))
         return TAN;
-    if (!strcmp(fun, "arccos"))
+    else if (!strcmp(fun, "arccos"))
         return ARCCOS;
-    if (!strcmp(fun, "arctan"))
+    else if (!strcmp(fun, "arctan"))
         return ARCTAN;
-    if (!strcmp(fun, "arcsin"))
+    else if (!strcmp(fun, "arcsin"))
         return ARCSIN;
-    if (!strcmp(fun, "sqrt"))
+    else if (!strcmp(fun, "sqrt"))
         return SQRT;
-    if (!strcmp(fun, "ln"))
+    else if (!strcmp(fun, "ln"))
         return LN;
-    if (!strcmp(fun, "log"))
+    else
         return LOG;
-    return -1;
 }
 
 void skip_spaces(struct Lexer *lex) {

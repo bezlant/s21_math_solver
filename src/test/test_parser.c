@@ -84,6 +84,16 @@ START_TEST(powpow) {
 }
 END_TEST
 
+START_TEST(noclosing) {
+    char str[] = "(420 * 69";
+    struct Tokens *tok = tokenize(str);
+
+    struct Tokens *res = convert_to_rpn(tok);
+    ck_assert_ptr_null(res);
+
+    free_Tokens(tok);
+}
+END_TEST
 Suite *suite_parser(void) {
     Suite *s = suite_create("suite_parser");
     TCase *tc = tcase_create("parser");
@@ -94,6 +104,7 @@ Suite *suite_parser(void) {
     tcase_add_test(tc, funcs);
     tcase_add_test(tc, sincos);
     tcase_add_test(tc, powpow);
+    tcase_add_test(tc, noclosing);
 
     suite_add_tcase(s, tc);
     return s;

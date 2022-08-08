@@ -179,6 +179,54 @@ START_TEST(error_2) {
 }
 END_TEST
 
+START_TEST(mod_unary_plus) {
+    char str[] = "+3 % 2";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = 1;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(all_arcs) {
+    char str[] = "arccos(arcsin(arctan(0.8)))";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = 0.73681317;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(sqrt_log) {
+    char str[] = "sqrt(ln(100))";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = 2.14596602;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
+START_TEST(sqrt_log10) {
+    char str[] = "sqrt(log(100))";
+    struct Tokens *tok = tokenize(str);
+    struct Tokens *res = convert_to_rpn(tok);
+
+    long double expected = 1.4142135623;
+    ck_assert_ldouble_eq_tol(expected, calculate(res, 0), 1e-06);
+
+    free_Tokens(tok);
+}
+END_TEST
+
 Suite *suite_calculate(void) {
     Suite *s = suite_create("suite_calculate");
     TCase *tc = tcase_create("calculate");
@@ -195,6 +243,10 @@ Suite *suite_calculate(void) {
     tcase_add_test(tc, complex_2);
     tcase_add_test(tc, error_1);
     tcase_add_test(tc, error_2);
+    tcase_add_test(tc, mod_unary_plus);
+    tcase_add_test(tc, all_arcs);
+    tcase_add_test(tc, sqrt_log);
+    tcase_add_test(tc, sqrt_log10);
 
     suite_add_tcase(s, tc);
     return s;
