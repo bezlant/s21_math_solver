@@ -22,7 +22,7 @@ static struct op_type operators[] = {
     {")", 0, NONE, NULL},
 };
 
-float calculate(struct Tokens *expr, float x) {
+long double calculate(struct Tokens *expr, long double x) {
     struct my_stack *s = init_stack();
 
     for (size_t i = 0; i < expr->size; i++) {
@@ -31,16 +31,16 @@ float calculate(struct Tokens *expr, float x) {
         } else if (expr->type[i] == X) {
             push(s, x);
         } else if (is_fun(expr->type[i]) || is_unary(expr->type[i])) {
-            float a = pop(s);
+            long double a = pop(s);
             push(s, operators[expr->type[i]].eval(a, 0));
         } else {
-            float b = pop(s);
-            float a = pop(s);
+            long double b = pop(s);
+            long double a = pop(s);
             push(s, operators[expr->type[i]].eval(a, b));
         }
     }
 
-    float res = pop(s);
+    long double res = pop(s);
     my_stack_free(s);
     return res;
 }
@@ -119,81 +119,81 @@ bool is_unary(size_t op) {
     return op == UNARY_SUB || op == UNARY_ADD;
 }
 
-float eval_add(float a, float b) {
+long double eval_add(long double a, long double b) {
     return a + b;
 }
 
-float eval_sub(float a, float b) {
+long double eval_sub(long double a, long double b) {
     return a - b;
 }
 
-float eval_mul(float a, float b) {
+long double eval_mul(long double a, long double b) {
     return a * b;
 }
 
-float eval_div(float a, float b) {
+long double eval_div(long double a, long double b) {
     return a / b;
 }
 
-float eval_pow(float a, float b) {
-    return powf(a, b);
+long double eval_pow(long double a, long double b) {
+    return powl(a, b);
 }
 
-float eval_mod(float a, float b) {
-    return (long long)a % (long long)b;
+long double eval_mod(long double a, long double b) {
+    return fmodl(a, b);
 }
 
-float eval_usub(float a, float b) {
+long double eval_usub(long double a, long double b) {
     (void)b;
     return -a;
 }
 
-float eval_uadd(float a, float b) {
+long double eval_uadd(long double a, long double b) {
     (void)b;
     return a;
 }
 
-float eval_cos(float a, float b) {
+long double eval_cos(long double a, long double b) {
     (void)b;
-    return cosf(a);
+    return cosl(a);
 }
 
-float eval_sin(float a, float b) {
+long double eval_sin(long double a, long double b) {
     (void)b;
-    return sinf(a);
+    return sinl(a);
 }
 
-float eval_tan(float a, float b) {
+long double eval_tan(long double a, long double b) {
     (void)b;
-    return tanf(a);
+    return tanl(a);
 }
 
-float eval_arccos(float a, float b) {
+long double eval_arccos(long double a, long double b) {
     (void)b;
-    return acosf(a);
+    return acosl(a);
 }
 
-float eval_arcsin(float a, float b) {
+long double eval_arcsin(long double a, long double b) {
     (void)b;
-    return asinf(a);
+    return asinl(a);
 }
 
-float eval_arctan(float a, float b) {
+long double eval_arctan(long double a, long double b) {
     (void)b;
-    return atanf(a);
+    return atanl(a);
 }
 
-float eval_sqrt(float a, float b) {
+long double eval_sqrt(long double a, long double b) {
     (void)b;
-    return sqrtf(a);
+    return sqrtl(a);
 }
 
-float eval_ln(float a, float b) {
+long double eval_ln(long double a, long double b) {
     (void)b;
-    return logf(a);
+    return logl(a);
 }
 
-float eval_log(float a, float b) {
+long double eval_log(long double a, long double b) {
     (void)b;
-    return log10f(a);
+    return log10l(a);
 }

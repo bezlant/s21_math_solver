@@ -9,12 +9,12 @@ struct my_stack *init_stack() {
     return new_stack;
 }
 
-void push(struct my_stack *const s, float x) {
+void push(struct my_stack *const s, long double x) {
     assert(s->idx < 1024 && s->idx >= -1);
     s->stack[++s->idx] = x;
 }
 
-float pop(struct my_stack *s) {
+long double pop(struct my_stack *s) {
     assert(s != NULL);
     assert(s->idx != -1);
     return s->stack[s->idx--];
@@ -26,7 +26,7 @@ bool is_empty(struct my_stack *s) {
     return s->idx >= 0 ? false : true;
 }
 
-float peek(struct my_stack *s) {
+long double peek(struct my_stack *s) {
     assert(s != NULL);
     assert(s->idx != -1);
     return s->stack[s->idx];

@@ -36,7 +36,7 @@ enum {
 
 struct Tokens {
     size_t type[256];
-    float value[256];
+    long double value[256];
     size_t size;
 };
 

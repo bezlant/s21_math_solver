@@ -8,7 +8,7 @@ struct op_type {
     char op[8];
     short precedence;
     short associativity;
-    float (*eval)(float a, float b);
+    long double (*eval)(long double a, long double b);
 };
 
 enum {
@@ -23,24 +23,24 @@ bool is_fun(size_t op);
 bool is_unary(size_t op);
 bool is_op(size_t op);
 
-float calculate(struct Tokens *expr, float x);
+long double calculate(struct Tokens *expr, long double x);
 
-float eval_add(float a, float b);
-float eval_sub(float a, float b);
-float eval_mul(float a, float b);
-float eval_div(float a, float b);
-float eval_pow(float a, float b);
-float eval_mod(float a, float b);
-float eval_uadd(float a, float b);
-float eval_usub(float a, float b);
-float eval_cos(float a, float b);
-float eval_sin(float a, float b);
-float eval_tan(float a, float b);
-float eval_arccos(float a, float b);
-float eval_arcsin(float a, float b);
-float eval_arctan(float a, float b);
-float eval_sqrt(float a, float b);
-float eval_ln(float a, float b);
-float eval_log(float a, float b);
+long double eval_add(long double a, long double b);
+long double eval_sub(long double a, long double b);
+long double eval_mul(long double a, long double b);
+long double eval_div(long double a, long double b);
+long double eval_pow(long double a, long double b);
+long double eval_mod(long double a, long double b);
+long double eval_uadd(long double a, long double b);
+long double eval_usub(long double a, long double b);
+long double eval_cos(long double a, long double b);
+long double eval_sin(long double a, long double b);
+long double eval_tan(long double a, long double b);
+long double eval_arccos(long double a, long double b);
+long double eval_arcsin(long double a, long double b);
+long double eval_arctan(long double a, long double b);
+long double eval_sqrt(long double a, long double b);
+long double eval_ln(long double a, long double b);
+long double eval_log(long double a, long double b);
 
 #endif  // PARSER_H_
