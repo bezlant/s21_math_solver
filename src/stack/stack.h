@@ -6,7 +6,7 @@
 #define STACK_SIZE 256
 
 struct my_stack {
-    float stack[STACK_SIZE];
+    long double stack[STACK_SIZE];
     int idx;
 };
 
@@ -26,7 +26,7 @@ struct my_stack *init_stack();
  * @param s stack pointer
  * @param x value to add to the stack
  */
-void push(struct my_stack *const s, float x);
+void push(struct my_stack *const s, long double x);
 
 /**
  * @brief Pop the top val of the stack
@@ -34,7 +34,7 @@ void push(struct my_stack *const s, float x);
  * @param s stack pointer
  * @return value from top of the stack
  */
-float pop(struct my_stack *s);
+long double pop(struct my_stack *s);
 
 /**
  * @brief Check if stack is empty
@@ -50,7 +50,7 @@ bool is_empty(struct my_stack *s);
  * @param s stack pointer
  * @return the top value
  */
-float peek(struct my_stack *s);
+long double peek(struct my_stack *s);
 
 /**
  * @brief destroyes the stack

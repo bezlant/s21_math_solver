@@ -71,7 +71,7 @@ void read_number(struct Lexer *lex, struct Tokens *tok) {
     char *end = NULL;
 
     tok->type[tok->size] = NUM;
-    tok->value[tok->size] = strtof(token, &end);
+    tok->value[tok->size] = strtold(token, &end);
     tok->size++;
 }
 
