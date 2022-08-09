@@ -1,6 +1,6 @@
 # Math Solver
 
-![Solver Preview](assets/preview.png)
+![Solver Preview](assets/preview.gif)
 
 ### Table of Contents
 * [Introduction](#introduction)
@@ -53,8 +53,8 @@ Implementation of the **math solver** in C following the principles of structure
 - [x] Make & Imgui integration
 - [x] GUI based on Dear ImGui
 - [x] Integrate ImPlot
-- [ ] Shunting-Yard algorithm.
-- [ ] String validation algorithm.
+- [x] Shunting-Yard algorithm.
+- [x] String validation algorithm.
 - [x] Credit calculator
 - [x] Debit calculator
 - [x] Unit Tests 
@@ -66,6 +66,7 @@ Implementation of the **math solver** in C following the principles of structure
 $ git clone https://github.com/bezlant/s21_math_solver
 $ cd s21_math_solver/src/
 $ make 
+$ make -f test.mk (for tests)
 ```
 
 ### Tests
