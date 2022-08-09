@@ -59,8 +59,28 @@ enum {
         abort();                                                               \
     }
 
+/**
+ * @brief Checks if the token is a functions
+ *
+ * @param op Current operator in our enum form
+ * @return True if correct, false otherwise
+ */
 bool is_fun(size_t op);
+
+/**
+ * @brief Checks if the token is an unary operator
+ *
+ * @param op Current opertator in our enum representation
+ * @return True if correct, false otherwise
+ */
 bool is_unary(size_t op);
+
+/**
+ * @brief Checks if the token is a math operator
+ *
+ * @param op Current operator in our enum representation
+ * @return True if correct, false otherwise
+ */
 bool is_op(size_t op);
 
 #endif  // COMMON_H_
