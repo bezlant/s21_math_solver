@@ -4,6 +4,7 @@ tags
 compile_commands.json
 build/
 imgui.ini
+objs/
 
 # Prerequisites
 *.d
