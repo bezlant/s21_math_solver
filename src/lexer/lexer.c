@@ -1,9 +1,6 @@
 #include "lexer.h"
 
 struct Tokens *tokenize(char *str) {
-    if (!is_valid(str))
-        return NULL;
-
     struct Tokens *tok = (struct Tokens *)calloc(1, sizeof(struct Tokens));
     CHECKMALLOC(tok);
 
@@ -116,21 +113,6 @@ size_t get_fun(const char *fun) {
 void skip_spaces(struct Lexer *lex) {
     while (isspace(lex->source[lex->cursor]))
         lex->cursor++;
-}
-
-bool is_valid(char *str) {
-    bool ret = true;
-    const char *error = NULL;
-    int erroffset = 0;
-    pcre *reg = pcre_compile("^[a-z0-9 \\.\\(\\)\\*\\-\\+\\%\\/\\^]+$", 0,
-                             &error, &erroffset, NULL);
-    assert(reg != NULL);
-
-    if (pcre_exec(reg, NULL, str, strlen(str), 0, 0, NULL, 0))
-        ret = false;
-
-    pcre_free(reg);
-    return ret;
 }
 
 void free_Tokens(struct Tokens *tok) {

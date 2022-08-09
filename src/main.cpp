@@ -2,7 +2,6 @@
 #include "includes/main.h"
 
 #define MAX 420420
-
 int main(void) {
     /* Get human-readable error outputs */
     glfwSetErrorCallback(glfw_error_callback);
@@ -54,7 +53,8 @@ int main(void) {
     plot_style.PlotDefaultSize = ImVec2(317, 419);
 
     const float TEXT_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
-
+    struct Tokens *tok = {0};
+    struct Tokens *rpn = {0};
     static float x_plot[MAX + 1] = {0};
     static float y_plot[MAX + 1] = {0};
     // Default states end
@@ -68,10 +68,10 @@ int main(void) {
         ImGui::NewFrame();
 
         {
+            // Main Menu
             ImGuiStyle &style = ImGui::GetStyle();
             style.FrameBorderSize = 1.0f;
             static ImGuiStyle ref_saved_style;
-            // Main Menu
             ImGui::SetNextWindowPos(ImVec2(21, 19), ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize(ImVec2(418, 182), ImGuiCond_FirstUseEver);
             ImGui::Begin("Main Menu");
@@ -109,29 +109,46 @@ int main(void) {
             if (ImGui::Button("Evaluate!"))
                 eval_clicked++;
 
-            static bool err = false;
-            if (eval_clicked) {
-                // Logic for the calc here
-                struct Tokens *tok = tokenize(expression);
-                if (tok) {
-                    err = false;
-                    struct Tokens *rpn = convert_to_rpn(tok);
+            ImGui::SameLine();
+            ImGui::Text("EvalClicked: %d", eval_clicked);
 
-                    size_t j = 0;
-                    for (long double i = -1000; i <= 1000;
-                         i += 2000.0L / MAX, j++) {
-                        x_plot[j] = i;
-                        y_plot[j] = calculate(rpn, x_plot[j]);
-                    }
+            bool valid = is_valid(expression);
 
-                    eval_clicked = 0;
-                } else {
-                    err = true;
+            if (eval_clicked && valid) {
+                tok = tokenize(expression);
+                if (!tok)
+                    valid = false;
+                if (valid) {
+                    valid = brackets_ok(tok);
+                }
+                if (valid) {
+                    valid = operators_ok(tok);
+                }
+                if (valid) {
+                    valid = numbers_ok(tok);
+                }
+                if (valid) {
+                    valid = functions_ok(tok);
                 }
             }
 
-            // if calc returned null (error occured)
-            if (err) {
+            if (eval_clicked && valid) {
+
+                rpn = convert_to_rpn(tok);
+                if (!rpn)
+                    valid = false;
+            }
+
+            if (eval_clicked && valid) {
+                size_t j = 0;
+                for (long double i = -1000; i <= 1000;
+                     i += 2000.0L / MAX, j++) {
+                    x_plot[j] = i;
+                    y_plot[j] = calculate(rpn, x_plot[j]);
+                }
+
+                eval_clicked = 0;
+            } else if (!valid) {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
                                    "Error occured please try again!");
             }
@@ -156,7 +173,6 @@ int main(void) {
 
             ImGui::End();
         }
-        // ImPlot::ShowDemoWindow();
 
         // Rendering
         ImGui::Render();

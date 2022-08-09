@@ -59,4 +59,4 @@ long double peek(struct my_stack *s);
  */
 void my_stack_free(struct my_stack *s);
 
-#endif
+#endif  //  STACK_H_

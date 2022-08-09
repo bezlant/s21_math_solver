@@ -6,6 +6,7 @@
 #include "../deposit_calc/deposit_calc.h"
 #include "../lexer/lexer.h"
 #include "../shunting_yard/shunting.h"
+#include "../validation/validation.h"
 #include "common.h"
 #include "gui.h"
 

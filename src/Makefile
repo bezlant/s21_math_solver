@@ -9,6 +9,7 @@ PARSER_DIR = ./shunting_yard
 LEXER_DIR = ./lexer
 CALC_DIR = ./calc
 STACK_DIR = ./stack
+VALIDATION_DIR = ./validation
 
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
@@ -20,6 +21,7 @@ SOURCES += $(PARSER_DIR)/shunting.c
 SOURCES += $(LEXER_DIR)/lexer.c 
 SOURCES += $(STACK_DIR)/stack.c 
 SOURCES += $(CALC_DIR)/calc.c 
+SOURCES += $(VALIDATION_DIR)/validation.c 
 
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
@@ -73,6 +75,9 @@ endif
 	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(STACK_DIR)/%.c
+	$(CXX) $(CXXFLAGS) -c -o $@ $< 
+
+%.o:$(VALIDATION_DIR)/%.c
 	$(CXX) $(CXXFLAGS) -c -o $@ $< 
 
 %.o:$(IMPLOT_DIR)/%.cpp

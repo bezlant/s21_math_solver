@@ -44,14 +44,6 @@ START_TEST(no_spaces) {
 }
 END_TEST
 
-START_TEST(error) {
-    char str[] = "____ 1 + 3 + x - 2 / 7 * sin(x) + cos(2 / sin(x))";
-    struct Tokens *tok = tokenize(str);
-
-    ck_assert_ptr_null(tok);
-}
-END_TEST
-
 START_TEST(unary_minus) {
     char str[] = "-(3 + 2)";
     struct Tokens *tok = tokenize(str);
@@ -147,7 +139,6 @@ Suite *suite_lexer(void) {
 
     tcase_add_test(tc, simple);
     tcase_add_test(tc, not_simple);
-    tcase_add_test(tc, error);
     tcase_add_test(tc, no_spaces);
     tcase_add_test(tc, unary_minus);
     tcase_add_test(tc, complex_unary_minus);
