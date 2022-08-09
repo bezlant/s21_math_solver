@@ -58,6 +58,12 @@ long double eval_mul(long double a, long double b) {
 }
 
 long double eval_div(long double a, long double b) {
+    if (fabsl(b) < 1e-02) {
+        if (b > 0)
+            return INFINITY;
+        else
+            return -INFINITY;
+    }
     return a / b;
 }
 
@@ -91,6 +97,11 @@ long double eval_sin(long double a, long double b) {
 
 long double eval_tan(long double a, long double b) {
     (void)b;
+    if (fmodl(fabsl(a), M_PI_2) < 1e-02)
+        return INFINITY;
+    else if (fabsl(fmodl(fabsl(a), M_PI_2) - M_PI_2) < 1e-02)
+        return -INFINITY;
+
     return tanl(a);
 }
 

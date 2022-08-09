@@ -109,9 +109,6 @@ int main(void) {
             if (ImGui::Button("Evaluate!"))
                 eval_clicked++;
 
-            ImGui::SameLine();
-            ImGui::Text("EvalClicked: %d", eval_clicked);
-
             bool valid = is_valid(expression);
 
             if (eval_clicked && valid) {
