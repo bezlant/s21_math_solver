@@ -6,6 +6,7 @@
 #include "../deposit_calc/deposit_calc.h"
 #include "../lexer/lexer.h"
 #include "../shunting_yard/shunting.h"
+#include "../validation/validation.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +18,7 @@ Suite *suite_credit(void);
 Suite *suite_lexer(void);
 Suite *suite_parser(void);
 Suite *suite_calculate(void);
+Suite *suite_validation(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

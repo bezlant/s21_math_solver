@@ -2,7 +2,6 @@
 #define LEXER_H_
 
 #include "../includes/common.h"
-#include <pcre.h>
 
 struct Lexer {
     char *source;
@@ -46,14 +45,6 @@ void read_symbol(struct Lexer *lex, struct Tokens *tok);
  * @param lex Structure with the string and current position
  */
 void skip_spaces(struct Lexer *lex);
-
-/**
- * @brief Checks if the string only has allowed characters
- *
- * @param str Given string
- * @return 1 if valid otherwise 0
- */
-bool is_valid(char *str);
 
 /**
  * @brief Replaces unary operators - becomes ~, + becomes #
