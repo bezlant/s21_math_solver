@@ -54,6 +54,7 @@ bool brackets_ok(struct Tokens *tok) {
     if (!is_empty(s))
         is_ok = false;
 
+    my_stack_free(s);
     return is_ok;
 }
 
@@ -87,7 +88,8 @@ bool numbers_ok(struct Tokens *tok) {
         size_t left = tok->type[i - 1];
         size_t right = tok->type[i + 1];
         if (tok->type[i] == NUM &&
-            (left == NUM || left == X || right == NUM || right == X))
+            (left == NUM || left == X || right == NUM || right == X ||
+             left == R_BRACKET || right == L_BRACKET))
             is_ok = false;
     }
 
