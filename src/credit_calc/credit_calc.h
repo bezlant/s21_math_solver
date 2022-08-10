@@ -1,3 +1,9 @@
+/**
+ * @file credit_calc.h
+ *
+ * Custom credit calculator implementation *WIP*
+ *
+ */
 #ifndef CREDIT_CALC_H_
 #define CREDIT_CALC_H_
 

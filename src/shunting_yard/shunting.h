@@ -1,3 +1,9 @@
+/**
+ * @file shunting.h
+ *
+ * Shunting yard algorithm implementation
+ *
+ */
 #ifndef SHUNTING_H_
 #define SHUNTING_H_
 

@@ -1,3 +1,9 @@
+/**
+ * @file main.h
+ *
+ * All the includes needed for the main
+ *
+ */
 #ifndef MAIN_H_
 #define MAIN_H_
 

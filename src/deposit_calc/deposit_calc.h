@@ -1,3 +1,9 @@
+/**
+ * @file deposit_calc.h
+ *
+ * Custom deposit calculator implementation *WIP*
+ *
+ */
 #ifndef DEPOSIT_CALC_H_
 #define DEPOSIT_CALC_H_
 

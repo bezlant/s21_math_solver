@@ -1,4 +1,10 @@
 #include <stdbool.h>
+/**
+ * @file debug.h
+ *
+ * Some useful debug prints
+ *
+ */
 
 #ifndef DEBUG_H_
 #define DEBUG_H_
