@@ -1,4 +1,10 @@
 #ifndef GUI_H_
+/**
+ * @file gui.h
+ *
+ * All the gui headers in one file
+ *
+ */
 #define GUI_H_
 
 #include <GLFW/glfw3.h>

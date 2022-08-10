@@ -1,3 +1,9 @@
+/**
+ * @file calc.h
+ *
+ * Math expression evalutator (from reverse polish notation to result)
+ *
+ */
 #ifndef CALC_H_
 #define CALC_H_
 

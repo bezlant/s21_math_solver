@@ -1,3 +1,9 @@
+/**
+ * @file stack.h
+ *
+ * Custom stack imlementation using an array
+ *
+ */
 #ifndef STACK_H_
 #define STACK_H_
 
@@ -6,7 +12,13 @@
 #define STACK_SIZE 256
 
 struct my_stack {
+    /**
+     * @brief Array to be used as a stack
+     */
     long double stack[STACK_SIZE];
+    /**
+     * @brief Current index in the stack
+     */
     int idx;
 };
 

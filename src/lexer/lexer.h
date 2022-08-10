@@ -1,10 +1,23 @@
+/**
+ * @file lexer.h
+ *
+ * Lexer implementation. Divides the string into an array of lexems & does minor
+ * validation.
+ *
+ */
 #ifndef LEXER_H_
 #define LEXER_H_
 
 #include "../includes/common.h"
 
 struct Lexer {
+    /**
+     * @brief String source
+     */
     char *source;
+    /**
+     * @brief Current index of the string pointer
+     */
     size_t cursor;
 };
 

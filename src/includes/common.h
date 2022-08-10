@@ -1,4 +1,10 @@
 #ifndef COMMON_H_
+/**
+ * @file common.h
+ *
+ * Project's common includes and functions
+ *
+ */
 #define COMMON_H_
 
 #include "debug.h"
@@ -35,15 +41,39 @@ enum {
 };
 
 struct Tokens {
+    /**
+     * @brief Type of a token in ENUM representation
+     */
     size_t type[256];
+    /**
+     * @brief Value if the type is NUM
+     */
     long double value[256];
+    /**
+     * @brief The amount of tokens
+     */
     size_t size;
 };
 
 struct op_type {
+    /**
+     * @brief Operator type
+     */
     char op[8];
+    /**
+     * @brief Precendence of the operator
+     */
     short precedence;
+    /**
+     * @brief Associativity of the operator
+     */
     short associativity;
+    /**
+     * @brief Function pointer to evaluate the given operator
+     *
+     * @param a Given number
+     * @param b Given number
+     */
     long double (*eval)(long double a, long double b);
 };
 
