@@ -5,6 +5,7 @@ compile_commands.json
 build/
 imgui.ini
 objs/
+Session.vim
 
 # Prerequisites
 *.d
