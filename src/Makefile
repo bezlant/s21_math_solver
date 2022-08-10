@@ -1,6 +1,7 @@
 CXX = g++
 
 EXE = math_solver
+BUILD_DIR = ../build
 IMGUI_DIR = ./imgui
 IMPLOT_DIR = ./implot
 CREDIT_DIR = ./credit_calc
@@ -10,6 +11,7 @@ LEXER_DIR = ./lexer
 CALC_DIR = ./calc
 STACK_DIR = ./stack
 VALIDATION_DIR = ./validation
+DIRS = $(IMGUI_DIR)/ $(IMPLOT_DIR)/ $(CREDIT_DIR)/ $(DEPOSIT_DIR)/ $(PARSER_DIR)/ $(LEXER_DIR)/ $(CALC_DIR)/ $(STACK_DIR)/ $(VALIDATION_DIR)/
 
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
@@ -88,15 +90,37 @@ endif
 
 all: $(EXE)
 
-debug:
-	@echo $(SOURCES)
-	@echo $(OBJS)
+.PHONY: install
+install: $(EXE)
+	install -m 557 $(BUILD_DIR)/$(EXE) ~/Desktop
+
+uninstall:
+	rm -rf ~/Desktop/$(EXE)
+
+dvi: $(DIRS)
+	mkdir -p ../docs
+	doxygen Doxyfile
+
+dist: $(DIRS) Makefile test.mk main.cpp
+	mkdir -p ../dist
+	tar cvzf ../dist/Math_Solver_1.0.tgz $(DIRS) Makefile test.mk main.cpp
+
+tests:
+	$(MAKE) -f test.mk 
+
+gcov_report:
+	$(MAKE) -f test.mk gcov_report
+
 
 $(EXE): $(OBJS)
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
+	mkdir -p $(BUILD_DIR)
+	$(CXX) -o $(BUILD_DIR)/$@ $^ $(CXXFLAGS) $(LIBS)
 
 clean:
 	rm -f  $(OBJS) imgui.ini
+	$(MAKE) -f test.mk clean
 
 fclean: clean
-	rm -f $(EXE)
+	rm -rf $(BUILD_DIR)
+	rm -rf ../dist
+	rm -rf ../docs
