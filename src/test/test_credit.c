@@ -7,7 +7,7 @@ START_TEST(annuity) {
     char buff[40] = "";
     long double montly = annuity_get_montly(interest_rate, term, loan_amount);
 
-    sprintf(buff, "%.2Lf", montly);
+    snprintf(buff, sizeof(buff), "%.2Lf", montly);
     sscanf(buff, "%Lf", &montly);
 
     ck_assert_ldouble_eq(montly, 687.35L);
@@ -25,12 +25,12 @@ START_TEST(differentiated) {
     char buff[40] = "";
     long double total =
         differentiated_get_total(loan_amount, term, interest_rate);
-    sprintf(buff, "%.2Lf", total);
+    snprintf(buff, sizeof(buff), "%.2Lf", total);
     sscanf(buff, "%Lf", &total);
     ck_assert_ldouble_eq(total, 47223.23L);
 
     long double montly = differentiated_get_montly(total, term);
-    sprintf(buff, "%.2Lf", montly);
+    snprintf(buff, sizeof(buff), "%.2Lf", montly);
     sscanf(buff, "%Lf", &montly);
     ck_assert_ldouble_eq(montly, 684.39L);
 

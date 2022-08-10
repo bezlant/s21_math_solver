@@ -1,11 +1,11 @@
-#ifndef COMMON_H_
+#ifndef SRC_INCLUDES_COMMON_H_
 /**
  * @file common.h
  *
  * Project's common includes and functions
  *
  */
-#define COMMON_H_
+#define SRC_INCLUDES_COMMON_H_
 
 #include "debug.h"
 #include <assert.h>
@@ -113,4 +113,4 @@ bool is_unary(size_t op);
  */
 bool is_op(size_t op);
 
-#endif  // COMMON_H_
+#endif  // SRC_INCLUDES_COMMON_H_

@@ -4,8 +4,8 @@
  * Custom stack imlementation using an array
  *
  */
-#ifndef STACK_H_
-#define STACK_H_
+#ifndef SRC_STACK_STACK_H_
+#define SRC_STACK_STACK_H_
 
 #include "../includes/common.h"
 
@@ -71,4 +71,4 @@ long double peek(struct my_stack *s);
  */
 void my_stack_free(struct my_stack *s);
 
-#endif  //  STACK_H_
+#endif  //  SRC_STACK_STACK_H_

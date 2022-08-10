@@ -4,8 +4,8 @@
  * All the includes needed for the main
  *
  */
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef SRC_INCLUDES_MAIN_H_
+#define SRC_INCLUDES_MAIN_H_
 
 #include "../calc/calc.h"
 #include "../credit_calc/credit_calc.h"
@@ -45,4 +45,4 @@ void show_credit_calc(bool &show_credit_window);
  */
 void draw_help_table(float height);
 
-#endif  // MAIN_H_
+#endif  // SRC_INCLUDES_MAIN_H_

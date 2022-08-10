@@ -1,5 +1,5 @@
-#ifndef TEST_CALC_H_
-#define TEST_CALC_H_
+#ifndef SRC_TEST_TEST_CALC_H_
+#define SRC_TEST_TEST_CALC_H_
 
 #include "../calc/calc.h"
 #include "../credit_calc/credit_calc.h"
@@ -23,4 +23,4 @@ Suite *suite_validation(void);
 void run_tests(void);
 void run_testcase(Suite *testcase);
 
-#endif  //  TEST_CALC_H_
+#endif  //  SRC_TEST_TEST_CALC_H_

@@ -4,8 +4,8 @@
  * Math expression evalutator (from reverse polish notation to result)
  *
  */
-#ifndef CALC_H_
-#define CALC_H_
+#ifndef SRC_CALC_CALC_H_
+#define SRC_CALC_CALC_H_
 
 #include "../includes/common.h"
 #include "../stack/stack.h"
@@ -154,4 +154,4 @@ long double eval_ln(long double a, long double b);
  */
 long double eval_log(long double a, long double b);
 
-#endif  // CALC_H_
+#endif  // SRC_CALC_CALC_H_

@@ -122,7 +122,9 @@ END_TEST
 
 START_TEST(complex) {
     char str[] =
-        "cos(tan( 2.0221 + tan( sin( cos( 5.0945 ) ) - tan(cos(3.6593))  ) ^1.4616 )  -sin(4.1949- sin( cos(tan(tan( cos(3.8475 ) )  ) ) ^  8.8451) ^  1.4109) -  tan( 2.6884/tan( 5.2519 / 6.5461 ) ))";
+        "cos(tan( 2.0221 + tan( sin( cos( 5.0945 ) ) - tan(cos(3.6593))  ) "
+        "^1.4616 )  -sin(4.1949- sin( cos(tan(tan( cos(3.8475 ) )  ) ) ^  "
+        "8.8451) ^  1.4109) -  tan( 2.6884/tan( 5.2519 / 6.5461 ) ))";
     struct Tokens *tok = tokenize(str);
     struct Tokens *res = convert_to_rpn(tok);
 
@@ -134,8 +136,10 @@ START_TEST(complex) {
 END_TEST
 
 START_TEST(complex_1) {
-    char str[] =
-        "2.4474 /8.0162/ 3.2142+tan( 0.6211 +sin(tan( 7.5952 +5.3702) ) - 4.7121^sin(  1.9427- 2.8496) ) / cos(0.2688 ^ 0.5391 + cos(tan(cos(cos(5.6221))) / sin(2.3295) -tan(cos(tan(cos(9.2239)))))) ";
+    char str[] = "2.4474 /8.0162/ 3.2142+tan( 0.6211 +sin(tan( 7.5952 +5.3702) "
+                 ") - 4.7121^sin(  1.9427- 2.8496) ) / cos(0.2688 ^ 0.5391 + "
+                 "cos(tan(cos(cos(5.6221))) / sin(2.3295) "
+                 "-tan(cos(tan(cos(9.2239)))))) ";
     struct Tokens *tok = tokenize(str);
     struct Tokens *res = convert_to_rpn(tok);
 
@@ -147,8 +151,9 @@ START_TEST(complex_1) {
 END_TEST
 
 START_TEST(complex_2) {
-    char str[] =
-        "tan( 3.764) ^sin( 9.445-sin( 7.2889 /  8.0438 -cos( sin(cos( tan(8.4448))) - 4.482)  )  / tan(cos(cos(sin(cos( cos(2.003)) )  ) / 0.1315) ))  -  8.8453/ 0.3612";
+    char str[] = "tan( 3.764) ^sin( 9.445-sin( 7.2889 /  8.0438 -cos( sin(cos( "
+                 "tan(8.4448))) - 4.482)  )  / tan(cos(cos(sin(cos( "
+                 "cos(2.003)) )  ) / 0.1315) ))  -  8.8453/ 0.3612";
     struct Tokens *tok = tokenize(str);
     struct Tokens *res = convert_to_rpn(tok);
 

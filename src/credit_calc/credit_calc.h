@@ -4,8 +4,8 @@
  * Custom credit calculator implementation *WIP*
  *
  */
-#ifndef CREDIT_CALC_H_
-#define CREDIT_CALC_H_
+#ifndef SRC_CREDIT_CALC_CREDIT_CALC_H_
+#define SRC_CREDIT_CALC_CREDIT_CALC_H_
 
 #include "../includes/common.h"
 
@@ -64,4 +64,4 @@ long double annuity_get_total(long double annuity, unsigned int term);
  */
 long double get_overpayment(long double paid, long double loaned);
 
-#endif  // CREDIT_CALC_H_
+#endif  // SRC_CREDIT_CALC_CREDIT_CALC_H_

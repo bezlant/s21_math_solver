@@ -4,8 +4,8 @@
  * Shunting yard algorithm implementation
  *
  */
-#ifndef SHUNTING_H_
-#define SHUNTING_H_
+#ifndef SRC_SHUNTING_YARD_SHUNTING_H_
+#define SRC_SHUNTING_YARD_SHUNTING_H_
 
 #include "../includes/common.h"
 #include "../stack/stack.h"
@@ -18,4 +18,4 @@
  */
 struct Tokens *convert_to_rpn(struct Tokens *expression);
 
-#endif  // SHUNTING_H_
+#endif  // SRC_SHUNTING_YARD_SHUNTING_H_

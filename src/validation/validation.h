@@ -1,5 +1,11 @@
-#ifndef VALIDATION_H_
-#define VALIDATION_H_
+/**
+ * @file validation.h
+ *
+ * Custom math expression validator
+ *
+ */
+#ifndef SRC_VALIDATION_H_
+#define SRC_VALIDATION_H_
 
 #include "../includes/common.h"
 #include "../stack/stack.h"
@@ -44,4 +50,4 @@ bool numbers_ok(struct Tokens *tok);
  * @return true if correct, false otherwise
  */
 bool functions_ok(struct Tokens *tok);
-#endif  // VALIDATION_H_
+#endif  // SRC_VALIDATION_H_

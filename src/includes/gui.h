@@ -1,11 +1,11 @@
-#ifndef GUI_H_
+#ifndef SRC_INCLUDES_GUI_H_
 /**
  * @file gui.h
  *
  * All the gui headers in one file
  *
  */
-#define GUI_H_
+#define SRC_INCLUDES_GUI_H_
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -13,4 +13,4 @@
 #include <imgui_impl_opengl3.h>
 #include <implot.h>
 
-#endif  // GUI_H_
+#endif  // SRC_INCLUDES_GUI_H_

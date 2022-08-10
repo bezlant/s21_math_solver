@@ -20,7 +20,7 @@ START_TEST(deposit) {
     long double earned =
         get_earnings(&init, term, interest_rate, 0, MONTHLY, replenish, 0);
 
-    sprintf(buff, "%.2Lf", earned);
+    snprintf(buff, sizeof(buff), "%.2Lf", earned);
     sscanf(buff, "%Lf", &earned);
 
     ck_assert_ldouble_eq(earned, 36850.14L);
@@ -44,19 +44,19 @@ START_TEST(deposit_capitalization) {
     long double earned =
         get_earnings(&init, term, interest_rate, 1, MONTHLY, replenish, 0);
 
-    sprintf(buff, "%.2Lf", earned);
+    snprintf(buff, sizeof(buff), "%.2Lf", earned);
     sscanf(buff, "%Lf", &earned);
 
     ck_assert_ldouble_eq(earned, 44314.66L);
 
     long double tax = get_tax(earned, tax_rate);
-    sprintf(buff, "%.2Lf", tax);
+    snprintf(buff, sizeof(buff), "%.2Lf", tax);
     sscanf(buff, "%Lf", &tax);
 
     ck_assert_ldouble_eq(tax, 1861.22L);
 
     long double overall = get_overall(init, earned);
-    sprintf(buff, "%.2Lf", overall - tax);
+    snprintf(buff, sizeof(buff), "%.2Lf", overall - tax);
     sscanf(buff, "%Lf", &overall);
     ck_assert_ldouble_eq_tol(overall, 203798L, 1e0);
 }
@@ -73,19 +73,19 @@ START_TEST(deposit_yearly) {
     long double earned =
         get_earnings(&init, term, interest_rate, 0, YEARLY, 0, withdraw);
 
-    sprintf(buff, "%.2Lf", earned);
+    snprintf(buff, sizeof(buff), "%.2Lf", earned);
     sscanf(buff, "%Lf", &earned);
 
     ck_assert_ldouble_eq(earned, 136259.82L);
 
     long double tax = get_tax(earned, tax_rate);
-    sprintf(buff, "%.2Lf", tax);
+    snprintf(buff, sizeof(buff), "%.2Lf", tax);
     sscanf(buff, "%Lf", &tax);
 
     ck_assert_ldouble_eq(tax, 5722.91L);
 
     long double overall = get_overall(init, earned);
-    sprintf(buff, "%.2Lf", overall - tax);
+    snprintf(buff, sizeof(buff), "%.2Lf", overall - tax);
     sscanf(buff, "%Lf", &overall);
     ck_assert_ldouble_eq_tol(overall, 117156.91L, 1e0);
 }

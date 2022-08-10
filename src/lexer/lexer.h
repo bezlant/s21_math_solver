@@ -5,8 +5,8 @@
  * validation.
  *
  */
-#ifndef LEXER_H_
-#define LEXER_H_
+#ifndef SRC_LEXER_LEXER_H_
+#define SRC_LEXER_LEXER_H_
 
 #include "../includes/common.h"
 
@@ -90,4 +90,4 @@ size_t get_symbol(char c);
  */
 size_t get_fun(const char *fun);
 
-#endif  // LEXER_H_
+#endif  // SRC_LEXER_LEXER_H_

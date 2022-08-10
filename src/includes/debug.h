@@ -1,13 +1,11 @@
-#include <stdbool.h>
 /**
  * @file debug.h
  *
  * Some useful debug prints
  *
  */
-
-#ifndef DEBUG_H_
-#define DEBUG_H_
+#ifndef SRC_INCLUDES_DEBUG_H_
+#define SRC_INCLUDES_DEBUG_H_
 
 #ifdef NDEBUG
 #define TRACE_ON 0
@@ -28,4 +26,4 @@
 #define TRACE_VALUE(TEXT, X) TRACE_PRINT(TEXT " %Lg", (X) + 0.0L)
 #define TRACE_PTR(TEXT, X) TRACE_PRINT(TEXT " %p", ((void *){0} = (X)))
 
-#endif  // DEBUG_H_
+#endif  // SRC_INCLUDES_DEBUG_H_
