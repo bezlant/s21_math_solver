@@ -1,12 +1,12 @@
 # Math Solver
 
-![Solver Preview](assets/preview.gif)
+https://user-images.githubusercontent.com/89563512/185045399-0f98ad54-0580-4e1c-8b0b-f7a8d163ee23.mov
 
 ### Table of Contents
 * [Introduction](#introduction)
 * [Features](#features)
 * [Goals](#goals)
-* [Build](#build)
+* [Build & Dependencies](#build-and-dependencies)
 * [Tests](#tests)
 
 ### Introduction
@@ -60,7 +60,9 @@ Implementation of the **math solver** in C following the principles of structure
 - [x] Unit Tests 
 - [x] Add previews & tests to README
 
-### Build
+### Build and Dependencies
+
+<u>You'll need to install g++, pcre, make, pkg-config, glfw and doxygen(if you need the documentation).</u><br>
 
 ```
 $ git clone https://github.com/bezlant/s21_math_solver --recursive
@@ -72,4 +74,4 @@ $ make -f test.mk (for tests)
 ### Tests
 * Unit tests are implemented using [Check](https://libcheck.github.io/check/) & coverage report with [LCOV](https://github.com/linux-test-project/lcov)
 
-![Tests & Coverage](assets/tests.gif)
+https://user-images.githubusercontent.com/89563512/185045620-0e82268f-fa63-47df-99cc-abe3894ffb69.mov
