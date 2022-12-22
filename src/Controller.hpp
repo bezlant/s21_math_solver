@@ -1,14 +1,14 @@
 #ifndef EXAMPLECONTROLLER_H
 #define EXAMPLECONTROLLER_H
 
-#include "exampleModel.hpp"
+#include "Model.hpp"
 
-class ExampleController {
+class Controller {
   private:
-    ExampleModel *model;
+    Model *model;
 
   public:
-    ExampleController(ExampleModel *m) : model(m){};
+    Controller(Model *m) : model(m){};
     double add(double a);
     double sub(double a);
     double mult(double a);

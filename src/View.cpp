@@ -1,7 +1,10 @@
-#include "consoleView.hpp"
+#include "View.hpp"
 #include <iostream>
 
-void ConsoleView::displayMenu() {
+View::View(Controller *c) : controller(c) {
+}
+
+void View::displayMenu() {
     std::cout << "=========" << std::endl;
     std::cout << " M E N U " << std::endl;
     std::cout << "=========" << std::endl;
@@ -13,21 +16,21 @@ void ConsoleView::displayMenu() {
     std::cout << "0. Quit" << std::endl << std::endl;
 }
 
-int ConsoleView::performChoice() {
+int View::performChoice() {
     int choice;
     std::cout << "Input a menu item digit: ";
     std::cin >> choice;
     return choice;
 }
 
-double ConsoleView::performNumericInput() {
+double View::performNumericInput() {
     double number;
     std::cout << "Input a decimal number: ";
     std::cin >> number;
     return number;
 }
 
-void ConsoleView::startEventLoop() {
+void View::startEventLoop() {
     while (true) {
         double result;
         displayMenu();

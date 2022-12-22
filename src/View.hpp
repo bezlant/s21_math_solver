@@ -1,7 +1,7 @@
 #ifndef CONSOLEVIEW_H
 #define CONSOLEVIEW_H
 
-#include "exampleController.hpp"
+#include "Controller.hpp"
 
 enum Choice {
     SUM = 1,
@@ -13,12 +13,12 @@ enum Choice {
     NONE = -1
 };
 
-class ConsoleView {
+class View {
   private:
-    ExampleController *controller;
+    Controller *controller;
 
   public:
-    ConsoleView(ExampleController *c) : controller(c){};
+    View(Controller *c);
     void displayMenu();
     int performChoice();
     double performNumericInput();
